@@ -3,4 +3,8 @@
     <string name="resultado_busqueda">Resultado busqueda fragment</string>
     <string name="form_busqueda">FORMULARIO busqueda fragment</string>
     <string name="detalle_alojamiento">DETALLE alojamiento fragment</string>
+    <string name="opcion_buscar">Buscar</string>
+    <string name="opcion_mis_reservas">Mis Reservas</string>
+    <string name="opcion_favoritos">Favoritos</string>
+    <string name="opcion_settings">Configuracion</string>
 </resources>
