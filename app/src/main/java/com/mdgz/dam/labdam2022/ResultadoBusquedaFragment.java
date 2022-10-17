@@ -2,11 +2,24 @@ package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +27,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ResultadoBusquedaFragment extends Fragment {
+
+    private NavController navHost;
+    private FragmentResultadoBusquedaBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +75,35 @@ public class ResultadoBusquedaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_resultado_busqueda, container, false);
+        binding = FragmentResultadoBusquedaBinding.inflate(getLayoutInflater());
+
+        View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Se obtiene el navHost
+        navHost = NavHostFragment.findNavController(this);
+
+        // Seteo del recycler
+        ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+        listaDatos.addAll(new AlojamientoRepository().listaCiudades());
+
+        RecyclerView recycler = binding.recycler;
+        recycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        AdapterDatos adapterDatos = new AdapterDatos(listaDatos);
+        recycler.setAdapter(adapterDatos);
+
+        // Action listener nueva busqueda
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navHost.navigate(R.id.action_resultadoBusquedaFragment_to_busquedaFragment);
+            }
+        });
     }
 }

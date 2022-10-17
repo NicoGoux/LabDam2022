@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -19,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.materialToolbar);
         setContentView(R.layout.activity_main);
-
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
