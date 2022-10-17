@@ -8,14 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mdgz.dam.labdam2022.databinding.ItemListBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.model.Habitacion;
+import com.mdgz.dam.labdam2022.model.Hotel;
 
 import java.util.ArrayList;
 
 public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> {
 
-    private ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+    private final ArrayList<Alojamiento> listaDatos;
 
     public AdapterDatos(ArrayList<Alojamiento> listaDatos) {
         this.listaDatos = listaDatos;
@@ -56,7 +57,13 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
         }
 
         public void asignarDatos(Alojamiento alojamiento) {
-            titulo.setText(alojamiento.getTitulo());
+            if (alojamiento instanceof Habitacion) {
+                titulo.setText(((Habitacion) alojamiento).getHotel().getNombre());
+            }
+            else {
+                titulo.setText(alojamiento.getTitulo());
+            }
+
             descripcion.setText(alojamiento.getDescripcion());
             capacidad.setText("Capacidad: " + alojamiento.getCapacidad());
             precio.setText("AR$"+alojamiento.getPrecioBase());
