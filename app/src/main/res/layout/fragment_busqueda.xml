@@ -6,9 +6,169 @@
     tools:context=".BusquedaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/form_busqueda" />
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/busquedaTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/busquedaText"
+                android:textAlignment="center"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/tipoAlojamientoTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tipoAlojamientoText"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/hotelCheckboxId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hoteles"
+                android:padding="10dp"
+                android:textAlignment="textStart"/>
+
+            <CheckBox
+                android:id="@+id/departamentoCheckboxId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Departamentos"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+            <TextView
+                android:id="@+id/cantidadPersonasTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cantidadPersonasText"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:paddingTop="10dp"/>
+
+            <EditText
+                android:id="@+id/cantidadPersonasId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="2"
+                android:ems="2"
+                android:inputType="number"
+                android:layout_gravity="center"
+                android:padding="10dp"/>
+
+            <CheckBox
+                android:id="@+id/wifiCheckBoxId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WiFi"
+                android:layout_gravity="center"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/rangoPrecioTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rangoPrecioText"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/minimoPrecioId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:maxLength="8"
+                    android:ems="6"
+                    android:hint="@string/minimoText"
+                    android:inputType="number"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/maximoPrecioId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="8"
+                    android:ems="6"
+                    android:inputType="number"
+                    android:hint="@string/maximoText"
+                    android:padding="10dp"
+                    android:layout_marginStart="15dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ciudadTextId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ciudadText"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:gravity="bottom|center">
+
+                    <Button
+                        android:id="@+id/resetButtonId"
+                        android:layout_width="wrap_content"
+                        android:minWidth="125dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/resetButtonText" />
+
+                    <Button
+                        android:id="@+id/searchButtonId"
+                        android:layout_width="wrap_content"
+                        android:minWidth="125dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/searchButtonText" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

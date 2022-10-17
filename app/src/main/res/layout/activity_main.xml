@@ -17,7 +17,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:menu="@menu/menu"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Mi Toolbar tuneada"
+        app:title="@string/tituloToolbar"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="2dp" />
 

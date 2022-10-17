@@ -7,4 +7,14 @@
     <string name="opcion_mis_reservas">Mis Reservas</string>
     <string name="opcion_favoritos">Favoritos</string>
     <string name="opcion_settings">Configuracion</string>
+    <string name="busquedaText">Por favor complete el formulario con los requisitos de busqueda</string>
+    <string name="tipoAlojamientoText">Seleccione el/los tipo/s de alojamiento/s</string>
+    <string name="cantidadPersonasText">Ingrese la cantidad de personas van a hospedarse</string>
+    <string name="rangoPrecioText">Ingrese el precio minimo y maximo que desea pagar</string>
+    <string name="minimoText">Minimo</string>
+    <string name="maximoText">Maximo</string>
+    <string name="ciudadText">Seleccione la ciudad donde desea alojarse</string>
+    <string name="resetButtonText">Restablecer</string>
+    <string name="searchButtonText">Buscar</string>
+    <string name="tituloToolbar">Formulario alojamiento</string>
 </resources>
