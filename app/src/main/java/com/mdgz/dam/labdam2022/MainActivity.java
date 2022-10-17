@@ -14,11 +14,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
         setSupportActionBar(binding.materialToolbar);
-
-
         setContentView(R.layout.activity_main);
+
+
 
     }
 
