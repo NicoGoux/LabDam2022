@@ -79,7 +79,7 @@ public class BusquedaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //navHost = NavHostFragment.findNavController(this);
+        navHost = NavHostFragment.findNavController(this);
 
         //TODO habría que actualizar el titulo de la toolbar
 
@@ -102,7 +102,7 @@ public class BusquedaFragment extends Fragment {
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
             //Se pasarian los alojamientos filtrados
-            navHost.navigate(R.id.resultadoBusquedaFragment);
+            navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
 
         });
     }
