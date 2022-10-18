@@ -17,4 +17,14 @@
     <string name="resetButtonText">Restablecer</string>
     <string name="searchButtonText">Buscar</string>
     <string name="tituloToolbar">Formulario alojamiento</string>
+    <string name="descripcionDetalleText">Descripcion: </string>
+    <string name="capacidadDetalleText">Capacidad: </string>
+    <string name="precioBaseDetalleText">Precio por noche: </string>
+    <string name="tieneWifiDetalleText"> </string>
+    <string name="costoLimpiezaDetalleText">Costo limpieza por dia: </string>
+    <string name="cantidadHabitacionesDetalleText">Cantidad habitaciones: </string>
+    <string name="ubicacionDetalleText">Ubicacion: </string>
+    <string name="camasIndividualesDetalleText">Cantidad de camas individuales: </string>
+    <string name="camasMatrimonialesDetalleText">Cantidad de camas matrimoniales: </string>
+    <string name="tieneEstacionamientoDetalleText">Tiene estacionamiento: </string>
 </resources>
