@@ -105,5 +105,9 @@ public class ResultadoBusquedaFragment extends Fragment {
                 navHost.navigate(R.id.action_resultadoBusquedaFragment_to_busquedaFragment);
             }
         });
+
+
     }
+
+
 }

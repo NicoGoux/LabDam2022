@@ -1,10 +1,15 @@
 package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
+import android.content.res.ColorStateList;
+import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -60,6 +65,8 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
         TextView descripcion;
         TextView capacidad;
         TextView precio;
+        ImageButton favorito;
+        ImageButton redFavorito;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +74,20 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
             descripcion = itemView.findViewById(R.id.descripcion_item);
             capacidad = itemView.findViewById(R.id.capacidad_item);
             precio = itemView.findViewById(R.id.precio_item);
+            favorito = itemView.findViewById(R.id.favoriteButton);
+            redFavorito = itemView.findViewById(R.id.redFavoriteButton);
+
+            favorito.setOnClickListener((View view1) -> {
+                favorito.setVisibility(View.GONE);
+                redFavorito.setVisibility(View.VISIBLE);
+                Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
+            });
+
+            redFavorito.setOnClickListener((View view1) -> {
+                redFavorito.setVisibility(View.GONE);
+                favorito.setVisibility(View.VISIBLE);
+                Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
+            });
         }
 
         public void asignarDatos(Alojamiento alojamiento) {
@@ -79,7 +100,7 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
 
             descripcion.setText(alojamiento.getDescripcion());
             capacidad.setText("Capacidad: " + alojamiento.getCapacidad());
-            precio.setText("AR$"+alojamiento.getPrecioBase());
+            precio.setText("ARS$"+alojamiento.getPrecioBase());
         }
     }
 }

@@ -83,4 +83,16 @@ public class DetalleAlojamientoFragment extends Fragment {
             binding.textview.setText(alojamiento.getTitulo());
         }
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //TODO
+//        if (getArguments() != null) {
+//            String tituloResultado = binding.tituloResultado.getText().toString();
+//            binding.tituloResultado.setText(tituloResultado + " en " + moneda);
+//        }
+
+    }
 }
