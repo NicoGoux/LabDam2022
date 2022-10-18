@@ -37,14 +37,11 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.asignarDatos(listaDatos.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
-                args.putInt("id_alojamiento", seleccionado.getId());
-                Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment, args);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Bundle args = new Bundle();
+            Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
+            args.putInt("id_alojamiento", seleccionado.getId());
+            Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment, args);
         });
     }
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
@@ -81,7 +82,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
                     android:layout_weight="1"
-                    android:src="@drawable/baseline_favorite_black_24" />
+                    android:src="@drawable/baseline_favorite_black_24"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                     android:id="@+id/precio_item"
