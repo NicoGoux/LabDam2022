@@ -1,12 +1,17 @@
 package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +51,9 @@ public class BusquedaFragment extends Fragment {
         return fragment;
     }
 
+    private NavController navHost;
+    private FragmentBusquedaBinding binding;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +61,41 @@ public class BusquedaFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_busqueda, container, false);
+        binding = FragmentBusquedaBinding.inflate(inflater,container,false);
+        return binding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        navHost = NavHostFragment.findNavController(this);
+
+        binding.resetButtonId.setOnClickListener((View view1) -> {
+
+                binding.hotelCheckboxId.setChecked(false);
+                binding.departamentoCheckboxId.setChecked(false);
+                binding.cantidadPersonasId.setText("");
+                binding.wifiCheckBoxId.setChecked(false);
+                binding.minimoPrecioId.setText("");
+                binding.maximoPrecioId.setText("");
+
+        });
+
+        binding.searchButtonId.setOnClickListener( (View view1) -> {
+
+            //Se pasarian los alojamientos filtrados
+            navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
+
+        });
+    }
+
+
 }
