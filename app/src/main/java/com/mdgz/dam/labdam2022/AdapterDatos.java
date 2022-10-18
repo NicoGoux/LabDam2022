@@ -1,11 +1,15 @@
 package com.mdgz.dam.labdam2022;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdgz.dam.labdam2022.model.Alojamiento;
@@ -34,6 +38,15 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.asignarDatos(listaDatos.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
+                args.putInt("id_alojamiento", seleccionado.getId());
+                Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment, args);
+            }
+        });
     }
 
     @Override

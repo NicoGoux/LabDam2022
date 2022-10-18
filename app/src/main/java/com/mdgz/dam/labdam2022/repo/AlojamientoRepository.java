@@ -21,4 +21,12 @@ public class AlojamientoRepository {
     public List<Alojamiento> listaCiudades(){
         return  _ALOJAMIENTOS;
     }
+    public Alojamiento getAlojamiento(int id) {
+        for (Alojamiento alojamiento : listaCiudades()) {
+            if (alojamiento.getId() == id) {
+                return alojamiento;
+            }
+        }
+        return null;
+    }
 }
