@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/busquedaText"
                 android:textAlignment="center"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tipoAlojamientoTextId"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tipoAlojamientoText"
                 android:textAlignment="center"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:layout_marginTop="10dp"/>
 
         <LinearLayout
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cantidadPersonasText"
                 android:textAlignment="center"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:paddingTop="10dp"/>
 
             <EditText
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/rangoPrecioText"
                 android:textAlignment="center"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:layout_marginTop="10dp"/>
 
             <LinearLayout
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ciudadText"
                 android:textAlignment="center"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:layout_marginTop="10dp"/>
 
             <Spinner
