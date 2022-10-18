@@ -1,14 +1,12 @@
 package com.mdgz.dam.labdam2022;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.materialToolbar);
-        setContentView(R.layout.activity_main);
+        setContentView(binding.getRoot());
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

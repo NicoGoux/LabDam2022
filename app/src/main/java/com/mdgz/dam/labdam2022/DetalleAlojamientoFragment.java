@@ -65,7 +65,7 @@ public class DetalleAlojamientoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDetalleAlojamientoBinding.inflate(inflater,container,false);
@@ -84,15 +84,4 @@ public class DetalleAlojamientoFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //TODO
-//        if (getArguments() != null) {
-//            String tituloResultado = binding.tituloResultado.getText().toString();
-//            binding.tituloResultado.setText(tituloResultado + " en " + moneda);
-//        }
-
-    }
 }

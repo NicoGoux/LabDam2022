@@ -100,11 +100,4 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/divisor"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#03245c" />
-
 </LinearLayout>
