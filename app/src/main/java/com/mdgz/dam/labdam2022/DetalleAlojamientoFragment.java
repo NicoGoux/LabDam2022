@@ -78,7 +78,7 @@ public class DetalleAlojamientoFragment extends Fragment {
             alojamiento = new AlojamientoRepository().getAlojamiento(getArguments().getInt("id_alojamiento"));
         }
         if (alojamiento != null) {
-            binding.textview.setText(alojamiento.getTitulo());
+            binding.tituloDetalle.setText(alojamiento.getTitulo());
         }
     }
 

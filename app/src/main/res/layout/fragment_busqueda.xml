@@ -3,15 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
     tools:context=".BusquedaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,103 +26,114 @@
                 android:id="@+id/busquedaTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="40dp"
                 android:text="@string/busquedaText"
                 android:textAlignment="center"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tipoAlojamientoTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="@string/tipoAlojamientoText"
                 android:textAlignment="center"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <CheckBox
-                android:id="@+id/hotelCheckboxId"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hoteles"
-                android:padding="10dp"
-                android:textAlignment="textStart"/>
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/departamentoCheckboxId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Departamentos"
-                android:padding="10dp"/>
+                <CheckBox
+                    android:id="@+id/hotelCheckboxId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Hoteles"
+                    android:textAlignment="textStart" />
 
-        </LinearLayout>
+                <CheckBox
+                    android:id="@+id/departamentoCheckboxId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Departamentos"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/cantidadPersonasTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
                 android:text="@string/cantidadPersonasText"
                 android:textAlignment="center"
-                android:textSize="16dp"
-                android:paddingTop="10dp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/cantidadPersonasId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="2"
-                android:ems="2"
-                android:inputType="number"
                 android:layout_gravity="center"
-                android:padding="10dp"/>
+                android:ems="2"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="2"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:padding="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <CheckBox
                 android:id="@+id/wifiCheckBoxId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WiFi"
                 android:layout_gravity="center"
-                android:padding="10dp"/>
+                android:minHeight="48dp"
+                android:padding="10dp"
+                android:text="WiFi" />
 
             <TextView
                 android:id="@+id/rangoPrecioTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="@string/rangoPrecioText"
                 android:textAlignment="center"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/minimoPrecioId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:maxLength="8"
                     android:ems="6"
                     android:hint="@string/minimoText"
                     android:inputType="number"
+                    android:maxLength="8"
                     android:padding="10dp" />
 
                 <EditText
                     android:id="@+id/maximoPrecioId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLength="8"
+                    android:layout_marginStart="15dp"
                     android:ems="6"
-                    android:inputType="number"
                     android:hint="@string/maximoText"
+                    android:inputType="number"
+                    android:maxLength="8"
                     android:padding="10dp"
-                    android:layout_marginStart="15dp"/>
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -126,44 +141,38 @@
                 android:id="@+id/ciudadTextId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="@string/ciudadText"
                 android:textAlignment="center"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="16sp" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="bottom">
+                android:minHeight="48dp"
+                android:spinnerMode="dropdown"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:gravity="bottom|center">
+                android:layout_weight="1"
+                android:gravity="bottom|center"
+                android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/resetButtonId"
-                        android:layout_width="wrap_content"
-                        android:minWidth="125dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/resetButtonText" />
+                <Button
+                    android:id="@+id/resetButtonId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="125dp"
+                    android:text="@string/resetButtonText" />
 
-                    <Button
-                        android:id="@+id/searchButtonId"
-                        android:layout_width="wrap_content"
-                        android:minWidth="125dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/searchButtonText" />
-
-                </LinearLayout>
+                <Button
+                    android:id="@+id/searchButtonId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="125dp"
+                    android:text="@string/searchButtonText" />
 
             </LinearLayout>
 
