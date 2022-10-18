@@ -1,9 +1,11 @@
 package com.mdgz.dam.labdam2022;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,8 @@ import com.mdgz.dam.labdam2022.model.Departamento;
 import com.mdgz.dam.labdam2022.model.Habitacion;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
 import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,19 +86,19 @@ public class DetalleAlojamientoFragment extends Fragment {
             alojamiento = new AlojamientoRepository().getAlojamiento(getArguments().getInt("id_alojamiento"));
         }
         if (alojamiento != null) {
-            binding.tituloDetalle.setText(alojamiento.getTitulo());
             binding.descripcionDetalle.setText("Descripcion: " + alojamiento.getDescripcion());
             binding.capacidadDetalle.setText("Capacidad: "+ alojamiento.getCapacidad());
-            binding.precioBaseDetalle.setText(String.valueOf("Precio por noche: " + alojamiento.getPrecioBase()));
+            binding.precioBaseDetalle.setText("Precio por noche: " + alojamiento.getPrecioBase());
 
             if(alojamiento instanceof Departamento){
+                binding.tituloDetalle.setText(alojamiento.getTitulo());
                 String tieneWifi = "NO";
                 if(((Departamento) alojamiento).getTieneWifi()) tieneWifi = "SI";
                 binding.tieneWifiDetalle.setText("Tiene Wifi: " + tieneWifi);
-                binding.costoLimpiezaDetalle.setText("Costo limpieza por dia: " + String.valueOf(((Departamento) alojamiento).getCostoLimpieza()));
+                binding.costoLimpiezaDetalle.setText("Costo limpieza por dia: " + ((Departamento) alojamiento).getCostoLimpieza());
                 binding.cantidadHabitacionesDetalle.setText("Cantidad habitaciones: " + ((Departamento) alojamiento).getCantidadHabitaciones());
-                Ubicacion ubicacion = ((Departamento) alojamiento).getUbicacion();
-                //binding.ubicacionDetalle.setText("Ubicacion: " + ubicacion.getCiudad().getNombre() + " " + ubicacion.getCalle() + " " + ubicacion.getNumero());
+                Ubicacion ubicacion = alojamiento.getUbicacion();
+                binding.ubicacionDetalle.setText("Ubicacion: " + ubicacion.getCiudad().getNombre() + " " + ubicacion.getCalle() + " " + ubicacion.getNumero());
 
                 binding.tieneWifiDetalle.setVisibility(View.VISIBLE);
                 binding.costoLimpiezaDetalle.setVisibility(View.VISIBLE);
@@ -102,18 +106,50 @@ public class DetalleAlojamientoFragment extends Fragment {
                 binding.ubicacionDetalle.setVisibility(View.VISIBLE);
             }
             else if(alojamiento instanceof Habitacion){
-
+                binding.tituloDetalle.setText(((Habitacion) alojamiento).getHotel().getNombre());
                 binding.camasIndividualesDetalle.setText("Cantidad de camas individuales: " + ((Habitacion)alojamiento).getCamasIndividuales());
                 binding.camasMatrimonialesDetalle.setText("Cantidad de camas matrimoniales: " + ((Habitacion)alojamiento).getCamasMatrimoniales());
                 String tieneEstacionamiento = "NO";
                 if(((Habitacion) alojamiento).getTieneEstacionamiento()) tieneEstacionamiento = "SI";
                 binding.tieneEstacionamientoDetalle.setText("Tiene estacionamiento: " + tieneEstacionamiento);
+                Ubicacion ubicacion = alojamiento.getUbicacion();
+                binding.ubicacionDetalle.setText("Ubicacion: " + ubicacion.getCiudad().getNombre() + " " + ubicacion.getCalle() + " " + ubicacion.getNumero());
 
                 binding.camasIndividualesDetalle.setVisibility(View.VISIBLE);
                 binding.camasMatrimonialesDetalle.setVisibility(View.VISIBLE);
                 binding.tieneEstacionamientoDetalle.setVisibility(View.VISIBLE);
+                binding.ubicacionDetalle.setVisibility(View.VISIBLE);
 
             }
+
+            binding.fechaIngresoId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                            // +1 because January is zero
+                            final String selectedDate = day + " / " + (month+1) + " / " + year;
+                            binding.fechaIngresoId.setText(selectedDate);
+                        }
+                    });
+                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                }
+            });
+            binding.fechaEgresoId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                            // +1 because January is zero
+                            final String selectedDate = day + " / " + (month+1) + " / " + year;
+                            binding.fechaEgresoId.setText(selectedDate);
+                        }
+                    });
+                    newFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
+                }
+            });
 
             binding.favoriteButton.setOnClickListener((View view1) -> {
                 binding.favoriteButton.setVisibility(View.GONE);
@@ -126,6 +162,8 @@ public class DetalleAlojamientoFragment extends Fragment {
                 binding.favoriteButton.setVisibility(View.VISIBLE);
                 Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
             });
+
+            binding.reservarButtonId.setOnClickListener((View view1) -> { Toast.makeText(view1.getContext(), "Reserva creada con exito",Toast.LENGTH_SHORT).show(); });
         }
     }
 }
