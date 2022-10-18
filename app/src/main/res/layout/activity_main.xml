@@ -9,11 +9,15 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#03245c"
+        android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:menu="@menu/menu"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/tituloToolbar"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="2dp" />
 
