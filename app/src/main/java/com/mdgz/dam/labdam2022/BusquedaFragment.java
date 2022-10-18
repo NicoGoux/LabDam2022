@@ -65,7 +65,7 @@ public class BusquedaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentBusquedaBinding.inflate(inflater,container,false);
@@ -77,13 +77,6 @@ public class BusquedaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navHost = NavHostFragment.findNavController(this);
-
-        //TODO habría que actualizar el titulo de la toolbar
-
-        //TODO restablecer estado
-//        if (savedInstanceState != null) {
-//
-//        }
 
         binding.resetButtonId.setOnClickListener((View view1) -> {
 
