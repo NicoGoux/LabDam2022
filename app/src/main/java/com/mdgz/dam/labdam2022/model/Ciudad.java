@@ -29,11 +29,18 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
+
+
     public String getAbreviatura() {
         return abreviatura;
     }
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

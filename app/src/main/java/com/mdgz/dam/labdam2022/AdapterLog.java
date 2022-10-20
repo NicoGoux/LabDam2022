@@ -30,17 +30,12 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        for (String line: logList) { holder.asignarDatos(line); }
-
-
-
-
+        holder.asignarDatos(logList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return logList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,56 +55,32 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             timeStamp = itemView.findViewById(R.id.timeStampId);
-            campo1 = itemView.findViewById(R.id.hotelCheckboxId);
-            campo2 = itemView.findViewById(R.id.departamentoCheckboxId);
-            campo3 = itemView.findViewById(R.id.cantidadPersonasId);
-            campo4 = itemView.findViewById(R.id.wifiCheckBoxId);
-            campo5 = itemView.findViewById(R.id.minimoPrecioId);
-            campo6 = itemView.findViewById(R.id.maximoPrecioId);
-            campo7 = itemView.findViewById(R.id.ciudadId);
-            campo8 = itemView.findViewById(R.id.cantResultadosId);
-            campo9 = itemView.findViewById(R.id.tiempoBusquedaId);
-
+            campo1 = itemView.findViewById(R.id.logText1);
+            campo2 = itemView.findViewById(R.id.logText2);
+            campo3 = itemView.findViewById(R.id.logText3);
+            campo4 = itemView.findViewById(R.id.logText4);
+            campo5 = itemView.findViewById(R.id.logText5);
+            campo6 = itemView.findViewById(R.id.logText6);
+            campo7 = itemView.findViewById(R.id.logText7);
+            campo8 = itemView.findViewById(R.id.logText8);
+            campo9 = itemView.findViewById(R.id.logText9);
         }
 
         public void asignarDatos(String line) {
-            String aux = "";
-            int position = 0;
-
             //TODO uso campos genericos porque sino tendria que saber que campos estan completos
             // para asignar los datos a esos campos
-
-            while(position < line.length()){
-
-                aux = recorrerString(line,position);
-                position += aux.length();
-                if(timeStamp.getText() == "") timeStamp.setText(aux);
-                else if (campo1.getText() == "") campo1.setText(aux);
-                else if (campo2.getText() == "") campo2.setText(aux);
-                else if (campo3.getText() == "") campo3.setText(aux);
-                else if (campo4.getText() == "") campo4.setText(aux);
-                else if (campo5.getText() == "") campo5.setText(aux);
-                else if (campo6.getText() == "") campo6.setText(aux);
-                else if (campo7.getText() == "") campo7.setText(aux);
-                else if (campo8.getText() == "") campo8.setText(aux);
-                else if (campo9.getText() == "") campo9.setText(aux);
-
+            for (String logItem : line.split(",")) {
+                if (timeStamp.getText() == "") timeStamp.setText(logItem);
+                else if (campo1.getText() == "") campo1.setText(logItem);
+                else if (campo2.getText() == "") campo2.setText(logItem);
+                else if (campo3.getText() == "") campo3.setText(logItem);
+                else if (campo4.getText() == "") campo4.setText(logItem);
+                else if (campo5.getText() == "") campo5.setText(logItem);
+                else if (campo6.getText() == "") campo6.setText(logItem);
+                else if (campo7.getText() == "") campo7.setText(logItem);
+                else if (campo8.getText() == "") campo8.setText(logItem);
+                else if (campo9.getText() == "") campo9.setText(logItem);
             }
-
         }
-
-        private String recorrerString(String text, int initialPosition){
-
-            String res = "";
-            char c = text.charAt(initialPosition);
-            while(c != ' '){
-                res += c;
-                initialPosition++;
-                c = text.charAt(initialPosition);
-            }
-
-            return res;
-        }
-
     }
 }

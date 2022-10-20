@@ -1,6 +1,11 @@
 package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,13 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.mdgz.dam.labdam2022.databinding.FragmentLogBinding;
-import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
-import com.mdgz.dam.labdam2022.model.Alojamiento;
 
 import java.util.ArrayList;
 
@@ -68,7 +67,7 @@ public class LogFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLogBinding.inflate(getLayoutInflater());
@@ -82,8 +81,19 @@ public class LogFragment extends Fragment {
         String fileName = "search_register.txt";
         ArrayList<String> logList = FileManager.readLogFile(fileName,requireContext());
 
+        if (logList == null) {
+            Toast.makeText(requireContext(),"No existe LogFile", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RecyclerView recyclerLog = binding.recyclerLog;
         recyclerLog.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        int i = 0;
+        for (String log : logList) {
+            Log.i("Element #"+i+": ", log);
+            i++;
+        }
 
         AdapterLog adapterLog = new AdapterLog(logList);
         recyclerLog.setAdapter(adapterLog);

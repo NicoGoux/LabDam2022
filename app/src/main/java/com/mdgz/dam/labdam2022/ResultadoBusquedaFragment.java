@@ -93,8 +93,8 @@ public class ResultadoBusquedaFragment extends Fragment {
         RecyclerView recycler = binding.recycler;
         recycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        AdapterDatos adapterDatos = new AdapterDatos(listaDatos);
-        recycler.setAdapter(adapterDatos);
+        AdapterAlojamiento adapterAlojamiento = new AdapterAlojamiento(listaDatos);
+        recycler.setAdapter(adapterAlojamiento);
 
         // Action listener nueva busqueda
         binding.button.setOnClickListener(new View.OnClickListener() {

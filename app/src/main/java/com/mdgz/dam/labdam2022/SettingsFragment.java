@@ -25,10 +25,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         navHost = NavHostFragment.findNavController(this);
 
         // Dependencia de metodo de pago y moneda
-        final ListPreference metodoPagoPreferenceList = (ListPreference)findPreference("metodo_de_pago_list");
-        final ListPreference monedaPreferenceList = (ListPreference)findPreference("moneda_list");
+        final ListPreference metodoPagoPreferenceList = findPreference("metodo_de_pago_list");
+        final ListPreference monedaPreferenceList = findPreference("moneda_list");
         metodoPagoPreferenceList.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           public boolean onPreferenceChange(Preference preference, Object newValue) {
+           public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
                final String val = newValue.toString();
                int index = metodoPagoPreferenceList.findIndexOfValue(val);
                if(index==0) {
@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             monedaPreferenceList.setEnabled(false);
         }
 
-        final SwitchPreference notificaciones = (SwitchPreference) findPreference("notificaciones");
+        final SwitchPreference notificaciones = findPreference("notificaciones");
         notificaciones.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
@@ -65,7 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-        final CheckBoxPreference recopilacionAutorizada = (CheckBoxPreference) findPreference("autorizacion_recopilacion");
+        final CheckBoxPreference recopilacionAutorizada = findPreference("autorizacion_recopilacion");
         recopilacionAutorizada.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {

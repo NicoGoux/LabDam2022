@@ -1,7 +1,6 @@
 package com.mdgz.dam.labdam2022;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -25,8 +24,7 @@ public class FileManager {
             output.flush();
             output.close();
 
-        }   catch (FileNotFoundException e) { e.printStackTrace(); }
-        catch (IOException e){ e.printStackTrace(); }
+        } catch (IOException e) { e.printStackTrace(); }
 
     }
 
@@ -34,11 +32,12 @@ public class FileManager {
 
         ArrayList<String> lines = new ArrayList<>();
         //Se lee el archivo
-        FileInputStream input = null;
+        FileInputStream input;
         try {
             input = context.openFileInput(fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
         InputStreamReader inputStreamReader = new InputStreamReader(input, StandardCharsets.UTF_8);
         String line;
@@ -52,10 +51,6 @@ public class FileManager {
             input.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        //TODO borrar, mensaje por consola para ver el contenido del archivo
-        for (String aLine:lines) {
-            Log.i("msg: ",aLine);
         }
 
         return lines;

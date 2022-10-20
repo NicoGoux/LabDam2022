@@ -88,10 +88,15 @@ public class BusquedaFragment extends Fragment {
 
         navHost = NavHostFragment.findNavController(this);
 
-        // TODO -> Lo intente de mil formas y no anda <-
         ArrayList<Ciudad> ciudades = new ArrayList<>();
+
+        // Se crea una ciudad con nombre vacio y atributos null para utilizarlo como primer elemento del spinner
+        ciudades.add(0,new Ciudad(null,"", null));
         ciudades.addAll(new CiudadRepository().listaCiudades());
-        //ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<Ciudad>(this, android.R.layout.simple_spinner_item,ciudades);
+
+        ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item,ciudades);
+        binding.ciudadId.setAdapter(ciudadAdapter);
+
 
         binding.resetButtonId.setOnClickListener((View view1) -> {
 
@@ -101,8 +106,7 @@ public class BusquedaFragment extends Fragment {
                 binding.wifiCheckBoxId.setChecked(false);
                 binding.minimoPrecioId.setText("");
                 binding.maximoPrecioId.setText("");
-                binding.ciudadId.setSelected(false);
-
+                binding.ciudadId.setSelection(0);
         });
 
         binding.searchButtonId.setOnClickListener( (View view1) -> {
@@ -118,22 +122,22 @@ public class BusquedaFragment extends Fragment {
             String registro = "";
             String ts = String.valueOf(Instant.now().getEpochSecond());
 
-            registro += ts + " ";
-            if(binding.hotelCheckboxId.isChecked()) registro += binding.hotelCheckboxId.getText().toString() + " ";
-            if(binding.departamentoCheckboxId.isChecked()) registro += binding.departamentoCheckboxId.getText().toString() + " ";
-            if(binding.cantidadPersonasId.getText() != null) registro += binding.cantidadPersonasId.getText().toString() + " ";
-            if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + " ";
-            if(binding.minimoPrecioId.getText() != null) registro += binding.minimoPrecioId.getText().toString() + " ";
-            if(binding.maximoPrecioId.getText() != null) registro += binding.maximoPrecioId.getText().toString() + " ";
+            registro += ts + ",";
+            if(binding.hotelCheckboxId.isChecked()) registro += "buscar:" + binding.hotelCheckboxId.getText().toString() + ",";
+            if(binding.departamentoCheckboxId.isChecked()) registro += "buscar:" + binding.departamentoCheckboxId.getText().toString() + ",";
+            if(!binding.cantidadPersonasId.getText().toString().isEmpty()) registro += "personas:" + binding.cantidadPersonasId.getText().toString() + ",";
+            if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
+            if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
+            if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
 
             //TODO agregar la ciudad en base a la seleccion del spiner
-                if(binding.ciudadId.getSelectedItem() != null) registro += ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + " ";
+            if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
 
 
             //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
             ArrayList<Alojamiento> listaDatos = new ArrayList<>();
             listaDatos.addAll(new AlojamientoRepository().listaCiudades());
-            registro += listaDatos.size() + " ";
+            registro += "resultados:" + listaDatos.size();
 
             //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
 
@@ -150,8 +154,6 @@ public class BusquedaFragment extends Fragment {
                 //Se elimina el archivo
                 FileManager.deleteLogFile(fileName,requireContext());
             }
-
-
         });
     }
 }
