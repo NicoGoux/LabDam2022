@@ -1,33 +1,29 @@
 package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.mdgz.dam.labdam2022.databinding.FragmentLogBinding;
 import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
-import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ResultadoBusquedaFragment#newInstance} factory method to
+ * Use the {@link LogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ResultadoBusquedaFragment extends Fragment {
-
-    private NavController navHost;
-    private FragmentResultadoBusquedaBinding binding;
+public class LogFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +34,7 @@ public class ResultadoBusquedaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ResultadoBusquedaFragment() {
+    public LogFragment() {
         // Required empty public constructor
     }
 
@@ -48,17 +44,19 @@ public class ResultadoBusquedaFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ResultadoBusquedaFragment.
+     * @return A new instance of fragment LogFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ResultadoBusquedaFragment newInstance(String param1, String param2) {
-        ResultadoBusquedaFragment fragment = new ResultadoBusquedaFragment();
+    public static LogFragment newInstance(String param1, String param2) {
+        LogFragment fragment = new LogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+    private FragmentLogBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,10 +68,10 @@ public class ResultadoBusquedaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentResultadoBusquedaBinding.inflate(getLayoutInflater());
+        binding = FragmentLogBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -81,31 +79,14 @@ public class ResultadoBusquedaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Se obtiene el navHost
-        navHost = NavHostFragment.findNavController(this);
+        String fileName = "search_register.txt";
+        ArrayList<String> logList = FileManager.readLogFile(fileName,requireContext());
 
+        RecyclerView recyclerLog = binding.recyclerLog;
+        recyclerLog.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        // Seteo del recycler
-        //TODO Cambiar a recibir un array
-        ArrayList<Alojamiento> listaDatos = new ArrayList<>();
-        listaDatos.addAll(new AlojamientoRepository().listaCiudades());
-
-        RecyclerView recycler = binding.recycler;
-        recycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        AdapterDatos adapterDatos = new AdapterDatos(listaDatos);
-        recycler.setAdapter(adapterDatos);
-
-        // Action listener nueva busqueda
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navHost.navigate(R.id.action_resultadoBusquedaFragment_to_busquedaFragment);
-            }
-        });
-
+        AdapterLog adapterLog = new AdapterLog(logList);
+        recyclerLog.setAdapter(adapterLog);
 
     }
-
-
 }

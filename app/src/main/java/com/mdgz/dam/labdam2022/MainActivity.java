@@ -8,10 +8,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
@@ -42,5 +38,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //TODO el recycler del log no funciona [: no entiendo bien como se maneja.
+    // revisa la funcion asignarDatos de la clase AdapterLog y el comentario.
+    // revisa el log_item_list.xml
+    // en la clase BusquedaFragment no pude agregar las ciudades al spinner en la linea 94
 }
 

@@ -19,8 +19,6 @@ import com.mdgz.dam.labdam2022.model.Habitacion;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
 import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 
-import java.util.Objects;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DetalleAlojamientoFragment#newInstance} factory method to

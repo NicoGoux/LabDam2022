@@ -198,7 +198,7 @@
 
             <EditText
                 android:id="@+id/cantidadPersonasDetalleId"
-                android:hint="cantidad de personas"
+                android:hint="Cantidad de personas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
