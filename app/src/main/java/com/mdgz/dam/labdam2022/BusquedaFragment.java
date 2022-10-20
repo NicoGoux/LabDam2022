@@ -1,17 +1,27 @@
 package com.mdgz.dam.labdam2022;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
+import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.model.Ciudad;
+import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
+import com.mdgz.dam.labdam2022.repo.CiudadRepository;
+
+import java.time.Instant;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +88,11 @@ public class BusquedaFragment extends Fragment {
 
         navHost = NavHostFragment.findNavController(this);
 
+        // TODO -> Lo intente de mil formas y no anda <-
+        ArrayList<Ciudad> ciudades = new ArrayList<>();
+        ciudades.addAll(new CiudadRepository().listaCiudades());
+        //ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<Ciudad>(this, android.R.layout.simple_spinner_item,ciudades);
+
         binding.resetButtonId.setOnClickListener((View view1) -> {
 
                 binding.hotelCheckboxId.setChecked(false);
@@ -86,6 +101,7 @@ public class BusquedaFragment extends Fragment {
                 binding.wifiCheckBoxId.setChecked(false);
                 binding.minimoPrecioId.setText("");
                 binding.maximoPrecioId.setText("");
+                binding.ciudadId.setSelected(false);
 
         });
 
@@ -93,6 +109,48 @@ public class BusquedaFragment extends Fragment {
 
             //Se pasarian los alojamientos filtrados
             navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+            boolean autorizacion = sharedPreferences.getBoolean("autorizacion_recopilacion",false);
+
+            if(autorizacion){
+
+            String registro = "";
+            String ts = String.valueOf(Instant.now().getEpochSecond());
+
+            registro += ts + " ";
+            if(binding.hotelCheckboxId.isChecked()) registro += binding.hotelCheckboxId.getText().toString() + " ";
+            if(binding.departamentoCheckboxId.isChecked()) registro += binding.departamentoCheckboxId.getText().toString() + " ";
+            if(binding.cantidadPersonasId.getText() != null) registro += binding.cantidadPersonasId.getText().toString() + " ";
+            if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + " ";
+            if(binding.minimoPrecioId.getText() != null) registro += binding.minimoPrecioId.getText().toString() + " ";
+            if(binding.maximoPrecioId.getText() != null) registro += binding.maximoPrecioId.getText().toString() + " ";
+
+            //TODO agregar la ciudad en base a la seleccion del spiner
+                if(binding.ciudadId.getSelectedItem() != null) registro += ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + " ";
+
+
+            //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
+            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+            listaDatos.addAll(new AlojamientoRepository().listaCiudades());
+            registro += listaDatos.size() + " ";
+
+            //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
+
+
+           //Se escribe el archivo
+            FileManager.saveLogFile(registro,requireContext());
+
+            //TODO BORRAR, muestra los strings que hay en el archivo
+                FileManager.readLogFile("search_register.txt",requireContext());
+
+            }
+            else{
+                String fileName = "search_register.txt";
+                //Se elimina el archivo
+                FileManager.deleteLogFile(fileName,requireContext());
+            }
+
 
         });
     }

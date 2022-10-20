@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.CheckBoxPreference;
@@ -75,7 +74,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     Toast.makeText(getContext(),"Se recopilaran datos", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    //TODO borrar log
+                    //Se borra el log
+                    String fileName = "search_register.txt";
+                    FileManager.deleteLogFile(fileName,requireContext());
                     Toast.makeText(getContext(),"Datos recopilados eliminados", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -86,7 +87,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         irDetallesRecopilados.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(@NonNull Preference preference) {
-                navHost.navigate(R.id.busquedaFragment);
+
+                navHost.navigate(R.id.action_settingsFragment_to_logFragment);
                 return true;
             }
         });
