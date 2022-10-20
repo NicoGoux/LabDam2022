@@ -11,16 +11,22 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
+import com.mdgz.dam.labdam2022.modelDAO.AlojamientoDAO;
+import com.mdgz.dam.labdam2022.repo.AppDataBase;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private AppDataBase dataBase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.materialToolbar);
         setContentView(binding.getRoot());
+
+        dataBase = AppDataBase.getinstance(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

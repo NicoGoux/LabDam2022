@@ -2,12 +2,24 @@ package com.mdgz.dam.labdam2022.model;
 
 import android.os.Parcelable;
 
-public abstract class Alojamiento implements Parcelable {
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity
+public abstract class Alojamiento implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "id")
     protected Integer id;
+
     protected String titulo;
     protected String descripcion;
     protected Integer capacidad;
+
+    @ColumnInfo(name = "precio_base")
     protected Double precioBase;
 
     public abstract Ubicacion getUbicacion();
@@ -15,7 +27,7 @@ public abstract class Alojamiento implements Parcelable {
         return precioBase;
     }
 
-    public Alojamiento(){
+    @Ignore public Alojamiento(){
         super();
     }
 

@@ -3,11 +3,37 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "hotel", foreignKeys = @ForeignKey(entity = Ubicacion.class,
+        parentColumns = {"lat", "lng"},
+        childColumns = {"ubicacion_lat", "ubicacion_lng"},
+        onDelete = ForeignKey.RESTRICT,
+        onUpdate = ForeignKey.CASCADE),
+        indices = {@Index({"ubicacion_lat","ubicacion_lng"})})
 public class Hotel implements Parcelable {
-    Integer id;
-    String nombre;
-    Integer categoria;
-    Ubicacion ubicacion;
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "id")
+    private Integer id;
+
+    private String nombre;
+    private Integer categoria;
+
+    @Ignore Ubicacion ubicacion;
+
+    @ColumnInfo(name = "ubicacion_lat")
+    private Double ubicacionLat;
+
+    @ColumnInfo(name = "ubicacion_lng")
+    private Double ubicacionLng;
 
     public Hotel(){
         super();
@@ -24,32 +50,48 @@ public class Hotel implements Parcelable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public Integer getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Integer categoria) {
-        this.categoria = categoria;
-    }
-
     public Ubicacion getUbicacion() {
         return ubicacion;
     }
 
+    public Double getUbicacionLat() {
+        return ubicacionLat;
+    }
+
+    public Double getUbicacionLng() {
+        return ubicacionLng;
+    }
+
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setCategoria(Integer categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUbicacionLat(Double ubicacionLat) {
+        this.ubicacionLat = ubicacionLat;
+    }
+
+    public void setUbicacionLng(Double ubicacionLng) {
+        this.ubicacionLng = ubicacionLng;
     }
 
     @Override

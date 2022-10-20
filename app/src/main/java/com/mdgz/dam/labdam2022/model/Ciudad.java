@@ -3,12 +3,23 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Ciudad implements Parcelable {
-    Integer id;
-    String nombre;
-    String abreviatura;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-    public Ciudad(){}
+@Entity(tableName = "ciudad")
+public class Ciudad implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "id")
+    private Integer id;
+    private String nombre;
+    private String abreviatura;
+
+    @Ignore public Ciudad(){}
 
     public Ciudad(Integer id, String nombre, String abreviatura) {
         this.id = id;
@@ -20,16 +31,8 @@ public class Ciudad implements Parcelable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getAbreviatura() {
@@ -38,6 +41,14 @@ public class Ciudad implements Parcelable {
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     @Override

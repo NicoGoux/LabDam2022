@@ -3,12 +3,37 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+
+@Entity(tableName = "departamento", foreignKeys = @ForeignKey(entity = Ubicacion.class,
+        parentColumns = {"lat", "lng"},
+        childColumns = {"ubicacion_lat", "ubicacion_lng"},
+        onDelete = ForeignKey.RESTRICT,
+        onUpdate = ForeignKey.CASCADE),
+        indices = {@Index({"ubicacion_lat","ubicacion_lng"})})
 public class Departamento extends Alojamiento implements Parcelable {
 
+    @ColumnInfo(name = "wifi")
     private Boolean tieneWifi;
+
+    @ColumnInfo(name = "costo_limpieza")
     private Double costoLimpieza;
+
+    @ColumnInfo(name = "cantidad_habitaciones")
     private Integer cantidadHabitaciones;
-    private Ubicacion ubicacion;
+
+
+    @Ignore private Ubicacion ubicacion;
+
+    @ColumnInfo(name = "ubicacion_lat")
+    private Double ubicacionLat;
+
+    @ColumnInfo(name = "ubicacion_lng")
+    private Double ubicacionLng;
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
@@ -26,33 +51,49 @@ public class Departamento extends Alojamiento implements Parcelable {
         this.ubicacion = ubicacion;
     }
 
-    public Boolean getTieneWifi() {
-        return tieneWifi;
+    @Override
+    public Ubicacion getUbicacion() {
+        return this.ubicacion;
     }
 
-    public void setTieneWifi(Boolean tieneWifi) {
-        this.tieneWifi = tieneWifi;
+    public Boolean getTieneWifi() {
+        return tieneWifi;
     }
 
     public Double getCostoLimpieza() {
         return costoLimpieza;
     }
 
-    public void setCostoLimpieza(Double costoLimpieza) {
-        this.costoLimpieza = costoLimpieza;
-    }
-
     public Integer getCantidadHabitaciones() {
         return cantidadHabitaciones;
     }
 
-    public void setCantidadHabitaciones(Integer cantidadHabitaciones) {
-        this.cantidadHabitaciones = cantidadHabitaciones;
+    public Double getUbicacionLat() {
+        return ubicacionLat;
     }
 
-    @Override
-    public Ubicacion getUbicacion() {
-        return this.ubicacion;
+    public Double getUbicacionLng() {
+        return ubicacionLng;
+    }
+
+    public void setUbicacionLat(Double ubicacionLat) {
+        this.ubicacionLat = ubicacionLat;
+    }
+
+    public void setUbicacionLng(Double ubicacionLng) {
+        this.ubicacionLng = ubicacionLng;
+    }
+
+    public void setTieneWifi(Boolean tieneWifi) {
+        this.tieneWifi = tieneWifi;
+    }
+
+    public void setCostoLimpieza(Double costoLimpieza) {
+        this.costoLimpieza = costoLimpieza;
+    }
+
+    public void setCantidadHabitaciones(Integer cantidadHabitaciones) {
+        this.cantidadHabitaciones = cantidadHabitaciones;
     }
 
     @Override

@@ -3,12 +3,34 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+
+@Entity (tableName = "habitacion", foreignKeys = @ForeignKey(entity = Hotel.class,
+        parentColumns = "id",
+        childColumns = "hotel_id",
+        onDelete = ForeignKey.RESTRICT,
+        onUpdate = ForeignKey.CASCADE),
+        indices = {@Index("hotel_id")})
 public class Habitacion  extends Alojamiento implements Parcelable {
 
+    @ColumnInfo(name = "camas_individuales")
     private int camasIndividuales;
+
+    @ColumnInfo(name = "camas_matrimoniales")
     private int camasMatrimoniales;
+
+    @ColumnInfo(name = "estacionamiento")
     private Boolean tieneEstacionamiento;
-    private Hotel hotel;
+
+    @Ignore private Hotel hotel;
+
+    @ColumnInfo(name = "hotel_id")
+    private Integer hotelId;
+
 
     public Habitacion() {
         super();
@@ -22,49 +44,57 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         this.hotel = hotel;
     }
 
-    public Integer getId() {
-        return id;
+    @Override
+    public Ubicacion getUbicacion() {
+        return hotel.getUbicacion();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId() {
+        return id;
     }
 
     public int getCamasIndividuales() {
         return camasIndividuales;
     }
 
-    public void setCamasIndividuales(int camasIndividuales) {
-        this.camasIndividuales = camasIndividuales;
-    }
-
     public int getCamasMatrimoniales() {
         return camasMatrimoniales;
-    }
-
-    public void setCamasMatrimoniales(int camasMatrimoniales) {
-        this.camasMatrimoniales = camasMatrimoniales;
     }
 
     public Boolean getTieneEstacionamiento() {
         return tieneEstacionamiento;
     }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public Integer getHotelId() {
+        return hotelId;
+    }
+
     public void setTieneEstacionamiento(Boolean tieneEstacionamiento) {
         this.tieneEstacionamiento = tieneEstacionamiento;
     }
 
-    public Hotel getHotel() {
-        return hotel;
+    public void setCamasMatrimoniales(int camasMatrimoniales) {
+        this.camasMatrimoniales = camasMatrimoniales;
+    }
+
+    public void setCamasIndividuales(int camasIndividuales) {
+        this.camasIndividuales = camasIndividuales;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
-    @Override
-    public Ubicacion getUbicacion() {
-        return hotel.getUbicacion();
+    public void setHotelId(Integer hotelId) {
+        this.hotelId = hotelId;
     }
 
     @Override
