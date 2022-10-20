@@ -38,7 +38,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
                     android:text="TextView"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -48,14 +47,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/capacidad_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="TextView" />
 
             </LinearLayout>
@@ -70,8 +67,7 @@
                     android:id="@+id/redFavoriteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
-                    android:layout_weight="1"
+                    android:layout_gravity="top|end"
                     android:visibility="gone"
                     android:src="@drawable/baseline_favorite_black_24"
                     app:tint="@android:color/holo_red_dark" />
@@ -80,8 +76,7 @@
                     android:id="@+id/favoriteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
-                    android:layout_weight="1"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/baseline_favorite_black_24"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -89,9 +84,9 @@
                     android:id="@+id/precio_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:gravity="end|bottom"
+                    android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                    android:gravity="end|center"
                     android:text="TextView"
                     android:textSize="20sp"
                     android:textStyle="bold" />

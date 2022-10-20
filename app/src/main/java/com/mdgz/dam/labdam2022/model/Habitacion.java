@@ -1,6 +1,9 @@
 package com.mdgz.dam.labdam2022.model;
 
-public class Habitacion  extends Alojamiento {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Habitacion  extends Alojamiento implements Parcelable {
 
     private int camasIndividuales;
     private int camasMatrimoniales;
@@ -64,4 +67,57 @@ public class Habitacion  extends Alojamiento {
         return hotel.getUbicacion();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.camasIndividuales);
+        dest.writeInt(this.camasMatrimoniales);
+        dest.writeValue(this.tieneEstacionamiento);
+        dest.writeParcelable(this.hotel, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.titulo);
+        dest.writeString(this.descripcion);
+        dest.writeValue(this.capacidad);
+        dest.writeValue(this.precioBase);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.camasIndividuales = source.readInt();
+        this.camasMatrimoniales = source.readInt();
+        this.tieneEstacionamiento = (Boolean) source.readValue(Boolean.class.getClassLoader());
+        this.hotel = source.readParcelable(Hotel.class.getClassLoader());
+        this.id = (Integer) source.readValue(Integer.class.getClassLoader());
+        this.titulo = source.readString();
+        this.descripcion = source.readString();
+        this.capacidad = (Integer) source.readValue(Integer.class.getClassLoader());
+        this.precioBase = (Double) source.readValue(Double.class.getClassLoader());
+    }
+
+    protected Habitacion(Parcel in) {
+        this.camasIndividuales = in.readInt();
+        this.camasMatrimoniales = in.readInt();
+        this.tieneEstacionamiento = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.hotel = in.readParcelable(Hotel.class.getClassLoader());
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.titulo = in.readString();
+        this.descripcion = in.readString();
+        this.capacidad = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.precioBase = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Habitacion> CREATOR = new Parcelable.Creator<Habitacion>() {
+        @Override
+        public Habitacion createFromParcel(Parcel source) {
+            return new Habitacion(source);
+        }
+
+        @Override
+        public Habitacion[] newArray(int size) {
+            return new Habitacion[size];
+        }
+    };
 }

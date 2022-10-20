@@ -17,18 +17,18 @@ import com.mdgz.dam.labdam2022.model.Habitacion;
 
 import java.util.ArrayList;
 
-public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> {
+public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.ViewHolder> {
 
     private final ArrayList<Alojamiento> listaDatos;
 
-    public AdapterDatos(ArrayList<Alojamiento> listaDatos) {
+    public AdapterAlojamiento(ArrayList<Alojamiento> listaDatos) {
         this.listaDatos = listaDatos;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,null,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_alojamiento,null,false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
         return new ViewHolder(view);
@@ -40,7 +40,7 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolder> 
         holder.itemView.setOnClickListener(view -> {
             Bundle args = new Bundle();
             Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
-            args.putInt("id_alojamiento", seleccionado.getId());
+            args.putParcelable("alojamiento_seleccionado", seleccionado);
             Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment, args);
         });
     }
