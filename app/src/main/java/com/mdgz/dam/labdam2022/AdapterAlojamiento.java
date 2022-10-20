@@ -40,7 +40,7 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
         holder.itemView.setOnClickListener(view -> {
             Bundle args = new Bundle();
             Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
-            args.putInt("id_alojamiento", seleccionado.getId());
+            args.putParcelable("alojamiento_seleccionado", seleccionado);
             Navigation.findNavController(view).navigate(R.id.action_resultadoBusquedaFragment_to_detalleAlojamientoFragment, args);
         });
     }

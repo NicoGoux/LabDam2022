@@ -23,55 +23,20 @@ import com.mdgz.dam.labdam2022.repo.CiudadRepository;
 import java.time.Instant;
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BusquedaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BusquedaFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private NavController navHost;
+    private FragmentBusquedaBinding binding;
 
     public BusquedaFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BusquedaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BusquedaFragment newInstance(String param1, String param2) {
-        BusquedaFragment fragment = new BusquedaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    private NavController navHost;
-    private FragmentBusquedaBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
     }
 
     @Override
@@ -91,7 +56,7 @@ public class BusquedaFragment extends Fragment {
         ArrayList<Ciudad> ciudades = new ArrayList<>();
 
         // Se crea una ciudad con nombre vacio y atributos null para utilizarlo como primer elemento del spinner
-        ciudades.add(0,new Ciudad(null,"", null));
+        ciudades.add(0,new Ciudad(null,"Seleccione una ciudad", null));
         ciudades.addAll(new CiudadRepository().listaCiudades());
 
         ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item,ciudades);
@@ -111,48 +76,42 @@ public class BusquedaFragment extends Fragment {
 
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
-            //Se pasarian los alojamientos filtrados
-            navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
+            // Deberia obtenerse de base de datos
+
+            ArrayList<Alojamiento> listaDatos = new ArrayList<Alojamiento>();
+            listaDatos.addAll(new AlojamientoRepository().listaCiudades());
+
+            Bundle args = new Bundle();
+            args.putParcelableArrayList("resultados_busqueda", listaDatos);
+
+            navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment,args);
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             boolean autorizacion = sharedPreferences.getBoolean("autorizacion_recopilacion",false);
 
             if(autorizacion){
+                String registro = "";
+                String ts = String.valueOf(Instant.now().getEpochSecond());
 
-            String registro = "";
-            String ts = String.valueOf(Instant.now().getEpochSecond());
+                registro += ts + ",";
+                if(binding.hotelCheckboxId.isChecked()) registro += "buscar:" + binding.hotelCheckboxId.getText().toString() + ",";
+                if(binding.departamentoCheckboxId.isChecked()) registro += "buscar:" + binding.departamentoCheckboxId.getText().toString() + ",";
+                if(!binding.cantidadPersonasId.getText().toString().isEmpty()) registro += "personas:" + binding.cantidadPersonasId.getText().toString() + ",";
+                if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
+                if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
+                if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
 
-            registro += ts + ",";
-            if(binding.hotelCheckboxId.isChecked()) registro += "buscar:" + binding.hotelCheckboxId.getText().toString() + ",";
-            if(binding.departamentoCheckboxId.isChecked()) registro += "buscar:" + binding.departamentoCheckboxId.getText().toString() + ",";
-            if(!binding.cantidadPersonasId.getText().toString().isEmpty()) registro += "personas:" + binding.cantidadPersonasId.getText().toString() + ",";
-            if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
-            if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
-            if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
-
-            //TODO agregar la ciudad en base a la seleccion del spiner
-            if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
-
-
-            //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
-            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
-            listaDatos.addAll(new AlojamientoRepository().listaCiudades());
-            registro += "resultados:" + listaDatos.size();
-
-            //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
+                //TODO agregar la ciudad en base a la seleccion del spiner
+                if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("Seleccione una ciudad")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
 
 
-           //Se escribe el archivo
-            FileManager.saveLogFile(registro,requireContext());
+                //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
+                registro += "resultados:" + listaDatos.size();
 
-            //TODO BORRAR, muestra los strings que hay en el archivo
-                FileManager.readLogFile("search_register.txt",requireContext());
+                //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
 
-            }
-            else{
-                String fileName = "search_register.txt";
-                //Se elimina el archivo
-                FileManager.deleteLogFile(fileName,requireContext());
+               //Se escribe el archivo
+                FileManager.saveLogFile(registro,requireContext());
             }
         });
     }
