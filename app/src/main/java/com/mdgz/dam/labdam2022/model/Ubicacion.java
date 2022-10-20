@@ -1,6 +1,9 @@
 package com.mdgz.dam.labdam2022.model;
 
-public class Ubicacion {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Ubicacion implements Parcelable {
     private double lat;
     private double lng;
     private String calle;
@@ -58,4 +61,46 @@ public class Ubicacion {
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lng);
+        dest.writeString(this.calle);
+        dest.writeString(this.numero);
+        dest.writeParcelable(this.ciudad, flags);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.lat = source.readDouble();
+        this.lng = source.readDouble();
+        this.calle = source.readString();
+        this.numero = source.readString();
+        this.ciudad = source.readParcelable(Ciudad.class.getClassLoader());
+    }
+
+    protected Ubicacion(Parcel in) {
+        this.lat = in.readDouble();
+        this.lng = in.readDouble();
+        this.calle = in.readString();
+        this.numero = in.readString();
+        this.ciudad = in.readParcelable(Ciudad.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Ubicacion> CREATOR = new Parcelable.Creator<Ubicacion>() {
+        @Override
+        public Ubicacion createFromParcel(Parcel source) {
+            return new Ubicacion(source);
+        }
+
+        @Override
+        public Ubicacion[] newArray(int size) {
+            return new Ubicacion[size];
+        }
+    };
 }

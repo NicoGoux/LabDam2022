@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Informacion personal">
+        <EditTextPreference
+            android:key="email"
+            android:title="Establecer email predeterminado"
+            android:selectAllOnFocus="true"
+            android:maxLines="1"
+            android:inputType="textEmailAddress" />
+
+        <EditTextPreference
+            android:key="cuit"
+            android:title="Establecer CUIT predeterminado"
+            android:selectAllOnFocus="true"
+            android:maxLines="1"
+            android:inputType="number" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Metodo de pago">
+        <ListPreference
+            android:title="Metodo de pago predeterminado"
+            android:entries="@array/pref_metodos_de_pago_titles"
+            android:entryValues="@array/pref_metodos_de_pago_values"
+            android:key="metodo_de_pago_list"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"/>
+
+        <ListPreference
+            android:title="Moneda predeterminada"
+            android:entries="@array/pref_moneda"
+            android:entryValues="@array/pref_moneda"
+            android:key="moneda_list"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:enabled="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Notificaciones">
+        <SwitchPreference
+            android:key="notificaciones"
+            android:title="Permitir notificaciones"
+            android:summary="Permitir notificaciones push en la barra de tareas" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Recopilacion de informacion">
+        <CheckBoxPreference
+            android:key="autorizacion_recopilacion"
+            android:title="Autorizar recopilacion de informacion"
+            android:summary="Autorizar que se guarde información de uso de la aplicación" />
+
+        <Preference
+            android:key="detalles_recopilacion"
+            android:title="Ver datos recopilados"
+            android:dependency="autorizacion_recopilacion"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

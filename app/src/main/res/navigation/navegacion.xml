@@ -38,4 +38,17 @@
             android:id="@+id/action_detalleAlojamientoFragment_to_resultadoBusquedaFragment"
             app:destination="@id/resultadoBusquedaFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mdgz.dam.labdam2022.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_logFragment"
+            app:destination="@id/logFragment" />
+    </fragment><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
+    <fragment
+        android:id="@+id/logFragment"
+        android:name="com.mdgz.dam.labdam2022.LogFragment"
+        android:label="fragment_log"
+        tools:layout="@layout/fragment_log" />
 </navigation>
