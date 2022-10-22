@@ -3,7 +3,6 @@ package com.mdgz.dam.labdam2022.utilities;
 import androidx.room.TypeConverter;
 
 import java.time.Instant;
-import java.util.Date;
 
 public class Converters {
     @TypeConverter

@@ -64,7 +64,6 @@ public class BusquedaFragment extends Fragment {
         ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item,ciudades);
         binding.ciudadId.setAdapter(ciudadAdapter);
 
-
         binding.resetButtonId.setOnClickListener((View view1) -> {
 
                 binding.hotelCheckboxId.setChecked(false);
@@ -78,10 +77,10 @@ public class BusquedaFragment extends Fragment {
 
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
-            // Deberia obtenerse de base de datos
+            // TODO Deberia obtenerse de base de datos
 
-            ArrayList<Alojamiento> listaDatos = new ArrayList<Alojamiento>();
-            listaDatos.addAll(new AlojamientoRepository().listaCiudades());
+            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+            listaDatos.addAll(AlojamientoRepository.getInstance(requireContext()).listaAlojamientos());
 
             Bundle args = new Bundle();
             args.putParcelableArrayList("resultados_busqueda", listaDatos);

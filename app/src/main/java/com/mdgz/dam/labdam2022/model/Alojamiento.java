@@ -8,11 +8,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+
 @Entity
 public abstract class Alojamiento implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "id")
     protected Integer id;
 
     protected String titulo;
@@ -27,11 +27,11 @@ public abstract class Alojamiento implements Parcelable {
         return precioBase;
     }
 
-    @Ignore public Alojamiento(){
+    public Alojamiento(){
         super();
     }
 
-    public Alojamiento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
+    @Ignore public Alojamiento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -39,6 +39,7 @@ public abstract class Alojamiento implements Parcelable {
         this.precioBase = precioBase;
     }
 
+    @NonNull
     public Integer getId() {
         return id;
     }

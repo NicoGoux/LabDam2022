@@ -3,40 +3,28 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Index;
 
-@Entity (tableName = "habitacion", foreignKeys = @ForeignKey(entity = Hotel.class,
-        parentColumns = "id",
-        childColumns = "hotel_id",
-        onDelete = ForeignKey.RESTRICT,
-        onUpdate = ForeignKey.CASCADE),
-        indices = {@Index("hotel_id")})
+@Entity
 public class Habitacion  extends Alojamiento implements Parcelable {
 
-    @ColumnInfo(name = "camas_individuales")
-    private int camasIndividuales;
+    private Integer camasIndividuales;
 
-    @ColumnInfo(name = "camas_matrimoniales")
-    private int camasMatrimoniales;
+    private Integer camasMatrimoniales;
 
-    @ColumnInfo(name = "estacionamiento")
+
     private Boolean tieneEstacionamiento;
 
     @Ignore private Hotel hotel;
-
-    @ColumnInfo(name = "hotel_id")
-    private Integer hotelId;
 
 
     public Habitacion() {
         super();
     }
 
-    public Habitacion(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, int camasIndividuales, int camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
+    @Ignore public Habitacion(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, int camasIndividuales, int camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
         super(id, titulo, descripcion, capacidad, precioBase);
         this.camasIndividuales = camasIndividuales;
         this.camasMatrimoniales = camasMatrimoniales;
@@ -49,15 +37,16 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         return hotel.getUbicacion();
     }
 
+    @NonNull
     public Integer getId() {
         return id;
     }
 
-    public int getCamasIndividuales() {
+    public Integer getCamasIndividuales() {
         return camasIndividuales;
     }
 
-    public int getCamasMatrimoniales() {
+    public Integer getCamasMatrimoniales() {
         return camasMatrimoniales;
     }
 
@@ -69,19 +58,15 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         return hotel;
     }
 
-    public Integer getHotelId() {
-        return hotelId;
-    }
-
     public void setTieneEstacionamiento(Boolean tieneEstacionamiento) {
         this.tieneEstacionamiento = tieneEstacionamiento;
     }
 
-    public void setCamasMatrimoniales(int camasMatrimoniales) {
+    public void setCamasMatrimoniales(Integer camasMatrimoniales) {
         this.camasMatrimoniales = camasMatrimoniales;
     }
 
-    public void setCamasIndividuales(int camasIndividuales) {
+    public void setCamasIndividuales(Integer camasIndividuales) {
         this.camasIndividuales = camasIndividuales;
     }
 
@@ -93,9 +78,6 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         this.hotel = hotel;
     }
 
-    public void setHotelId(Integer hotelId) {
-        this.hotelId = hotelId;
-    }
 
     @Override
     public int describeContents() {
@@ -139,7 +121,7 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         this.precioBase = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Habitacion> CREATOR = new Parcelable.Creator<Habitacion>() {
+    public static final Parcelable.Creator<Habitacion> CREATOR = new Parcelable.Creator<>() {
         @Override
         public Habitacion createFromParcel(Parcel source) {
             return new Habitacion(source);

@@ -3,37 +3,19 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Index;
 
-@Entity(tableName = "departamento", foreignKeys = @ForeignKey(entity = Ubicacion.class,
-        parentColumns = {"lat", "lng"},
-        childColumns = {"ubicacion_lat", "ubicacion_lng"},
-        onDelete = ForeignKey.RESTRICT,
-        onUpdate = ForeignKey.CASCADE),
-        indices = {@Index({"ubicacion_lat","ubicacion_lng"})})
+@Entity
 public class Departamento extends Alojamiento implements Parcelable {
 
-    @ColumnInfo(name = "wifi")
     private Boolean tieneWifi;
 
-    @ColumnInfo(name = "costo_limpieza")
     private Double costoLimpieza;
 
-    @ColumnInfo(name = "cantidad_habitaciones")
     private Integer cantidadHabitaciones;
 
-
     @Ignore private Ubicacion ubicacion;
-
-    @ColumnInfo(name = "ubicacion_lat")
-    private Double ubicacionLat;
-
-    @ColumnInfo(name = "ubicacion_lng")
-    private Double ubicacionLng;
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
@@ -43,7 +25,7 @@ public class Departamento extends Alojamiento implements Parcelable {
         super();
     }
 
-    public Departamento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, Boolean tieneWifi, Double costoLimpieza, Integer cantidadHabitaciones,Ubicacion ubicacion) {
+    @Ignore public Departamento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, Boolean tieneWifi, Double costoLimpieza, Integer cantidadHabitaciones,Ubicacion ubicacion) {
         super(id, titulo, descripcion, capacidad, precioBase);
         this.tieneWifi = tieneWifi;
         this.costoLimpieza = costoLimpieza;
@@ -66,22 +48,6 @@ public class Departamento extends Alojamiento implements Parcelable {
 
     public Integer getCantidadHabitaciones() {
         return cantidadHabitaciones;
-    }
-
-    public Double getUbicacionLat() {
-        return ubicacionLat;
-    }
-
-    public Double getUbicacionLng() {
-        return ubicacionLng;
-    }
-
-    public void setUbicacionLat(Double ubicacionLat) {
-        this.ubicacionLat = ubicacionLat;
-    }
-
-    public void setUbicacionLng(Double ubicacionLng) {
-        this.ubicacionLng = ubicacionLng;
     }
 
     public void setTieneWifi(Boolean tieneWifi) {
@@ -138,7 +104,7 @@ public class Departamento extends Alojamiento implements Parcelable {
         this.precioBase = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Departamento> CREATOR = new Parcelable.Creator<Departamento>() {
+    public static final Parcelable.Creator<Departamento> CREATOR = new Parcelable.Creator<>() {
         @Override
         public Departamento createFromParcel(Parcel source) {
             return new Departamento(source);

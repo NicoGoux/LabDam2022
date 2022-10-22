@@ -3,30 +3,16 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "ubicacion", foreignKeys = @ForeignKey(entity = Ciudad.class,
-        parentColumns = "id",
-        childColumns = "ciudad_id"), primaryKeys = {"lat","lng"})
 public class Ubicacion implements Parcelable {
 
-    @NonNull
     private Double lat;
-    @NonNull
+
     private Double lng;
 
     private String calle;
     private String numero;
 
-    @Ignore private Ciudad ciudad;
-
-    @ColumnInfo(name = "ciudad_id")
-    private Integer ciudadId;
+    private Ciudad ciudad;
 
     public Ubicacion(){
 
@@ -60,10 +46,6 @@ public class Ubicacion implements Parcelable {
         return ciudad;
     }
 
-    public Integer getCiudadId() {
-        return ciudadId;
-    }
-
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
     }
@@ -82,10 +64,6 @@ public class Ubicacion implements Parcelable {
 
     public void setLng(Double lng) {
         this.lng = lng;
-    }
-
-    public void setCiudadId(Integer ciudadId) {
-        this.ciudadId = ciudadId;
     }
 
     @Override
@@ -118,7 +96,7 @@ public class Ubicacion implements Parcelable {
         this.ciudad = in.readParcelable(Ciudad.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Ubicacion> CREATOR = new Parcelable.Creator<Ubicacion>() {
+    public static final Parcelable.Creator<Ubicacion> CREATOR = new Parcelable.Creator<>() {
         @Override
         public Ubicacion createFromParcel(Parcel source) {
             return new Ubicacion(source);

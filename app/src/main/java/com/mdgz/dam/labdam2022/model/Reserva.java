@@ -1,29 +1,18 @@
 package com.mdgz.dam.labdam2022.model;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.time.Instant;
 
-@Entity (tableName = "reserva")
 public class Reserva {
 
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    @ColumnInfo(name = "id")
     private Integer id;
 
-    @ColumnInfo(name = "fecha_ingreso")
     private Instant fechaIngreso;
-    @ColumnInfo(name = "fecha_egreso")
+
     private Instant fechaEgreso;
 
     private Boolean cancelada;
     private Double monto;
 
-    @NonNull
     public Integer getId() {
         return id;
     }
@@ -44,7 +33,7 @@ public class Reserva {
         return monto;
     }
 
-    public void setId(@NonNull Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
