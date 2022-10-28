@@ -1,55 +1,44 @@
 package com.mdgz.dam.labdam2022.model;
 
-import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
 
 public class Reserva {
 
-    private Integer id;
+    UUID alojamientoID;
+    UUID usuarioID;
+    Date fechaIngreso;
+    Date fechaSalida;
 
-    private Instant fechaIngreso;
-
-    private Instant fechaEgreso;
-
-    private Boolean cancelada;
-    private Double monto;
-
-    public Integer getId() {
-        return id;
+    public UUID getAlojamientoID() {
+        return alojamientoID;
     }
 
-    public Instant getFechaIngreso() {
+    public UUID getUsuarioID() {
+        return usuarioID;
+    }
+
+    public Date getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public Instant getFechaEgreso() {
-        return fechaEgreso;
+    public Date getFechaSalida() {
+        return fechaSalida;
     }
 
-    public Boolean getCancelada() {
-        return cancelada;
+    public void setAlojamientoID(UUID alojamientoID) {
+        this.alojamientoID = alojamientoID;
     }
 
-    public Double getMonto() {
-        return monto;
+    public void setUsuarioID(UUID usuarioID) {
+        this.usuarioID = usuarioID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setFechaIngreso(Instant fechaIngreso) {
+    public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public void setFechaEgreso(Instant fechaEgreso) {
-        this.fechaEgreso = fechaEgreso;
-    }
-
-    public void setCancelada(Boolean cancelada) {
-        this.cancelada = cancelada;
-    }
-
-    public void setMonto(Double monto) {
-        this.monto = monto;
+    public void setFechaSalida(Date fechaSalida) {
+        this.fechaSalida = fechaSalida;
     }
 }

@@ -59,7 +59,7 @@ public class BusquedaFragment extends Fragment {
 
         // Se crea una ciudad con nombre vacio y atributos null para utilizarlo como primer elemento del spinner
         ciudades.add(0,new Ciudad(null,"Seleccione una ciudad", null));
-        ciudades.addAll(new CiudadRepository().listaCiudades());
+        ciudades.addAll(CiudadRepository.getInstance(requireContext()).listaCiudades());
 
         ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item,ciudades);
         binding.ciudadId.setAdapter(ciudadAdapter);
@@ -78,9 +78,7 @@ public class BusquedaFragment extends Fragment {
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
             // TODO Deberia obtenerse de base de datos
-
-            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
-            listaDatos.addAll(AlojamientoRepository.getInstance(requireContext()).listaAlojamientos());
+            ArrayList<Alojamiento> listaDatos = new ArrayList<>(AlojamientoRepository.getInstance(requireContext()).listaAlojamientos());
 
             Bundle args = new Bundle();
             args.putParcelableArrayList("resultados_busqueda", listaDatos);

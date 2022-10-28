@@ -1,33 +1,26 @@
 package com.mdgz.dam.labdam2022.model;
 
+import java.util.UUID;
+
 public class Favorito {
-    private Integer id;
+    private UUID alojamientoId;
 
-    private Alojamiento alojamiento;
+    private UUID usuarioID;
 
-    private Integer idAlojamiento;
 
-    public Integer getId() {
-        return id;
+    public UUID getAlojamientoId() {
+        return alojamientoId;
     }
 
-    public Alojamiento getAlojamiento() {
-        return alojamiento;
+    public UUID getUsuarioID() {
+        return usuarioID;
     }
 
-    public Integer getIdAlojamiento() {
-        return idAlojamiento;
+    public void setAlojamientoId(UUID alojamientoId) {
+        this.alojamientoId = alojamientoId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setAlojamiento(Alojamiento alojamiento) {
-        this.alojamiento = alojamiento;
-    }
-
-    public void setIdAlojamiento(Integer idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
+    public void setUsuarioID(UUID usuarioID) {
+        this.usuarioID = usuarioID;
     }
 }

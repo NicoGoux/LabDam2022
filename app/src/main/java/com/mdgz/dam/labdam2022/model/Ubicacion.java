@@ -3,22 +3,40 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(foreignKeys = @ForeignKey(entity = Ciudad.class,
+        parentColumns = "id",
+        childColumns = "ciudad_id"),
+        primaryKeys = {"lat","lng"},
+        indices = @Index("ciudad_id"))
 public class Ubicacion implements Parcelable {
 
+    @NonNull
     private Double lat;
-
+    @NonNull
     private Double lng;
 
     private String calle;
     private String numero;
 
+    @Ignore
     private Ciudad ciudad;
+
+    @ColumnInfo(name = "ciudad_id")
+    private Integer ciudadId;
 
     public Ubicacion(){
 
     }
 
-    public Ubicacion(double lat, double lng, String calle, String numero, Ciudad ciudad) {
+    @Ignore public Ubicacion(double lat, double lng, String calle, String numero, Ciudad ciudad) {
         this.lat = lat;
         this.lng = lng;
         this.calle = calle;
@@ -44,6 +62,14 @@ public class Ubicacion implements Parcelable {
 
     public Ciudad getCiudad() {
         return ciudad;
+    }
+
+    public Integer getCiudadId() {
+        return ciudadId;
+    }
+
+    public void setCiudadId(Integer ciudadId) {
+        this.ciudadId = ciudadId;
     }
 
     public void setCiudad(Ciudad ciudad) {

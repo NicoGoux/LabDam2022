@@ -1,6 +1,7 @@
 package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,17 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.mdgz.dam.labdam2022.database.AppDataBase;
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
-import com.mdgz.dam.labdam2022.model.Alojamiento;
-import com.mdgz.dam.labdam2022.model.Departamento;
-import com.mdgz.dam.labdam2022.model.Habitacion;
-import com.mdgz.dam.labdam2022.model.Hotel;
-import com.mdgz.dam.labdam2022.model.Ubicacion;
-import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
-import com.mdgz.dam.labdam2022.repo.AppDataBase;
-import com.mdgz.dam.labdam2022.repo.CiudadRepository;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,45 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         dataBase = AppDataBase.getInstance(this);
 
-        dataBase.clearTables();
-
-        AlojamientoRepository alojamientoRepository = AlojamientoRepository.getInstance(this);
-
-
-
-        final Ubicacion ubicacion1 = new Ubicacion(-42.6,-38.3,"San Martin","1989", CiudadRepository._CIUDADES.get(0));
-        final Ubicacion ubicacion2 = new Ubicacion(-42.25,-38.2,"Lopez y Planes","2007",CiudadRepository._CIUDADES.get(1));
-
-        final Departamento departamento = new Departamento(
-                null,
-                "Depto 1",
-                "luminoso y amplio",
-                6,
-                300.0,
-                true,
-                1500.0,
-                3,
-                ubicacion1);
-
-        final Habitacion habitacion = new Habitacion(
-                null,
-                "Habitacion 2",
-                "Espectacular suite",
-                4,
-                1200.0,
-                2,
-                1,
-                false,
-                new Hotel(1,"Hotel 1",3,ubicacion2) );
-
-        ArrayList<Alojamiento> listaAlojamientos = new ArrayList<>();
-        listaAlojamientos.add(departamento);
-        listaAlojamientos.add(habitacion);
-
-
-        alojamientoRepository.insertarListaAlojamientos(listaAlojamientos);
-
-
+        Runnable r = () -> {
+            dataBase.alojamientoDAO().recuperarAlojamientos();
+        };
+        dataBase.getQueryExecutor().execute(r);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -89,8 +46,25 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuSettings:
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
                 NavHostFragment.findNavController(currentFragment).navigate(R.id.action_global_settingsFragment);
+            case R.id.menuBuscar:
+
+                // TODO borrar. Usado para probar
+                Runnable r = () -> {
+                    Log.i("Objeto habitacion", (dataBase.alojamientoDAO().recuperarAlojamientos())[0].toString());
+                };
+                dataBase.getQueryExecutor().execute(r);
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /*
+
+    * TODO Herencia en Room. Como tratarla y como generar objetos completos a partir de la relacion?.
+    * TODO Utilizacion de Embedded. Es mejor realizar Embedded o ingresar tablas individuales?.
+    * TODO RoomDataSource. Como se implementan?
+    * TODO Inserts complementarios (primero alojamiento y despues habitacion/departamento). Que pasa si uno falla?
+
+     */
 }
 

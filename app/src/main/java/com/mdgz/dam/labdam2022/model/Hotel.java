@@ -12,10 +12,6 @@ public class Hotel implements Parcelable {
 
     Ubicacion ubicacion;
 
-    public Hotel(){
-        super();
-    }
-
     public Hotel(Integer id, String nombre, Integer categoria, Ubicacion ubicacion) {
         this.id = id;
         this.nombre = nombre;
