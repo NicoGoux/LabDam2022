@@ -39,9 +39,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO el recycler del log no funciona [: no entiendo bien como se maneja.
-    // revisa la funcion asignarDatos de la clase AdapterLog y el comentario.
-    // revisa el log_item_list.xml
-    // en la clase BusquedaFragment no pude agregar las ciudades al spinner en la linea 94
 }
 

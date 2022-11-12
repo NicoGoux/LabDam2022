@@ -102,12 +102,7 @@ public class BusquedaFragment extends Fragment {
                 if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
                 if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
                 if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
-
-                //TODO agregar la ciudad en base a la seleccion del spiner
                 if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("Seleccione una ciudad")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
-
-
-                //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
                 registro += "resultados:" + listaDatos.size();
 
                 //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()

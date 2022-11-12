@@ -69,8 +69,8 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         }
 
         public void asignarDatos(String line) {
-            //TODO uso campos genericos porque sino tendria que saber que campos estan completos
-            // para asignar los datos a esos campos
+            //Se usan campos genericos porque sino se tendria que saber que campos estan completos
+            // para asignar los datos a dichos campos
             for (String logItem : line.split(",")) {
                 if (timeStamp.getText() == "") timeStamp.setText(logItem);
                 else if (campo1.getText() == "") campo1.setText(logItem);

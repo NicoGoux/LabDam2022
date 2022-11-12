@@ -1,6 +1,7 @@
 package com.mdgz.dam.labdam2022.model;
 
 import android.os.Parcelable;
+import android.text.Editable;
 
 public abstract class Alojamiento implements Parcelable {
 
@@ -9,11 +10,6 @@ public abstract class Alojamiento implements Parcelable {
     protected String descripcion;
     protected Integer capacidad;
     protected Double precioBase;
-
-    public abstract Ubicacion getUbicacion();
-    public Double costoDia(){
-        return precioBase;
-    }
 
     public Alojamiento(){
         super();
@@ -45,5 +41,11 @@ public abstract class Alojamiento implements Parcelable {
 
     public Double getPrecioBase() {
         return precioBase;
+    }
+
+    public abstract Ubicacion getUbicacion();
+
+    public Double obtenerCosto(Long days, Double precioBase){
+        return days*precioBase;
     }
 }
