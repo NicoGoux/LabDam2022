@@ -3,40 +3,26 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
 import java.util.UUID;
 
-
-@Entity
 public abstract class Alojamiento implements Parcelable {
-    @PrimaryKey
-    @NonNull
     protected UUID id;
-
     protected String titulo;
     protected String descripcion;
     protected Integer capacidad;
-
-    @ColumnInfo(name = "precio_base")
     protected Double precioBase;
 
-    @Ignore  public Alojamiento(String titulo, String descripcion, Integer capacidad, Double precioBase) {
-        this.id = UUID.randomUUID();
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.capacidad = capacidad;
-        this.precioBase = precioBase;
+    protected Alojamiento() {
     }
 
-    @Ignore public Alojamiento(){
-        super();
+    protected Alojamiento(final String titulo, final String descripcion, final Integer capacidad,
+                          final Double precioBase) {
+        this(null, titulo, descripcion, capacidad, precioBase);
     }
 
-    public Alojamiento(UUID id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
+    protected Alojamiento(final UUID id, final String titulo, final String descripcion, final Integer capacidad,
+                          final Double precioBase) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -68,5 +54,25 @@ public abstract class Alojamiento implements Parcelable {
 
     public Double getPrecioBase() {
         return precioBase;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public void setPrecioBase(Double precioBase) {
+        this.precioBase = precioBase;
     }
 }

@@ -3,40 +3,15 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
-
-@Entity(foreignKeys = @ForeignKey(entity = Ciudad.class,
-        parentColumns = "id",
-        childColumns = "ciudad_id"),
-        primaryKeys = {"lat","lng"},
-        indices = @Index("ciudad_id"))
 public class Ubicacion implements Parcelable {
 
-    @NonNull
     private Double lat;
-    @NonNull
     private Double lng;
-
     private String calle;
     private String numero;
-
-    @Ignore
     private Ciudad ciudad;
 
-    @ColumnInfo(name = "ciudad_id")
-    private Integer ciudadId;
-
-    public Ubicacion(){
-
-    }
-
-    @Ignore public Ubicacion(double lat, double lng, String calle, String numero, Ciudad ciudad) {
+    public Ubicacion(final double lat, final double lng, final String calle, final String numero, final Ciudad ciudad) {
         this.lat = lat;
         this.lng = lng;
         this.calle = calle;
@@ -64,14 +39,6 @@ public class Ubicacion implements Parcelable {
         return ciudad;
     }
 
-    public Integer getCiudadId() {
-        return ciudadId;
-    }
-
-    public void setCiudadId(Integer ciudadId) {
-        this.ciudadId = ciudadId;
-    }
-
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
     }
@@ -92,6 +59,7 @@ public class Ubicacion implements Parcelable {
         this.lng = lng;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -99,30 +67,30 @@ public class Ubicacion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(this.lat);
-        dest.writeDouble(this.lng);
+        dest.writeValue(this.lat);
+        dest.writeValue(this.lng);
         dest.writeString(this.calle);
         dest.writeString(this.numero);
         dest.writeParcelable(this.ciudad, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.lat = source.readDouble();
-        this.lng = source.readDouble();
+        this.lat = (Double) source.readValue(Double.class.getClassLoader());
+        this.lng = (Double) source.readValue(Double.class.getClassLoader());
         this.calle = source.readString();
         this.numero = source.readString();
         this.ciudad = source.readParcelable(Ciudad.class.getClassLoader());
     }
 
     protected Ubicacion(Parcel in) {
-        this.lat = in.readDouble();
-        this.lng = in.readDouble();
+        this.lat = (Double) in.readValue(Double.class.getClassLoader());
+        this.lng = (Double) in.readValue(Double.class.getClassLoader());
         this.calle = in.readString();
         this.numero = in.readString();
         this.ciudad = in.readParcelable(Ciudad.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Ubicacion> CREATOR = new Parcelable.Creator<>() {
+    public static final Creator<Ubicacion> CREATOR = new Creator<Ubicacion>() {
         @Override
         public Ubicacion createFromParcel(Parcel source) {
             return new Ubicacion(source);

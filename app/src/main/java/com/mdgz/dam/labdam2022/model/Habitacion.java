@@ -4,44 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
 import java.util.UUID;
 
-@Entity(ignoredColumns = {"id", "titulo","descripcion","capacidad","precio_base"},
-        foreignKeys = @ForeignKey(entity = Alojamiento.class,parentColumns = "id",childColumns = "id_alojamiento",onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE))
-public class Habitacion  extends Alojamiento implements Parcelable {
-
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "id_alojamiento")
-    private UUID idAlojamiento;
+public class Habitacion extends Alojamiento implements Parcelable {
 
     private Integer camasIndividuales;
-
     private Integer camasMatrimoniales;
-
     private Boolean tieneEstacionamiento;
+    private Hotel hotel;
 
-    @Ignore private Hotel hotel;
-
-    public Habitacion() {
-        super();
+    public Habitacion(final String titulo, final String descripcion, final Integer capacidad,
+                      final Double precioBase, final Integer camasIndividuales, final Integer camasMatrimoniales,
+                      final Boolean tieneEstacionamiento, final Hotel hotel) {
+        this(null, titulo, descripcion, capacidad, precioBase, camasIndividuales, camasMatrimoniales,
+                tieneEstacionamiento, hotel);
     }
 
-    @Ignore public Habitacion(String titulo, String descripcion, Integer capacidad, Double precioBase, Integer camasIndividuales, Integer camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
-        super(titulo, descripcion, capacidad, precioBase);
-        this.camasIndividuales = camasIndividuales;
-        this.camasMatrimoniales = camasMatrimoniales;
-        this.tieneEstacionamiento = tieneEstacionamiento;
-        this.hotel = hotel;
-    }
-
-    @Ignore public Habitacion(UUID id, String titulo, String descripcion, Integer capacidad, Double precioBase, Integer camasIndividuales, Integer camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
+    public Habitacion(final UUID id, final String titulo, final String descripcion, final Integer capacidad,
+                      final Double precioBase, final Integer camasIndividuales, final Integer camasMatrimoniales,
+                      final Boolean tieneEstacionamiento, final Hotel hotel) {
         super(id, titulo, descripcion, capacidad, precioBase);
         this.camasIndividuales = camasIndividuales;
         this.camasMatrimoniales = camasMatrimoniales;
@@ -51,12 +33,7 @@ public class Habitacion  extends Alojamiento implements Parcelable {
 
     @Override
     public Ubicacion getUbicacion() {
-        return hotel.getUbicacion();
-    }
-
-    @NonNull
-    public UUID getId() {
-        return id;
+        return this.hotel.getUbicacion();
     }
 
     public Integer getCamasIndividuales() {
@@ -75,16 +52,6 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         return hotel;
     }
 
-    @NonNull
-    public UUID getIdAlojamiento() {
-        return idAlojamiento;
-    }
-
-    public void setIdAlojamiento(@NonNull UUID idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
-    }
-
-
     public void setTieneEstacionamiento(Boolean tieneEstacionamiento) {
         this.tieneEstacionamiento = tieneEstacionamiento;
     }
@@ -97,14 +64,24 @@ public class Habitacion  extends Alojamiento implements Parcelable {
         this.camasIndividuales = camasIndividuales;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Habitacion{" +
+                "titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", capacidad=" + capacidad +
+                ", precioBase=" + precioBase +
+                ", camasIndividuales=" + camasIndividuales +
+                ", camasMatrimoniales=" + camasMatrimoniales +
+                ", tieneEstacionamiento=" + tieneEstacionamiento +
+                ", hotel=" + hotel +
+                '}';
+    }
 
     @Override
     public int describeContents() {
@@ -113,11 +90,11 @@ public class Habitacion  extends Alojamiento implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.camasIndividuales);
-        dest.writeInt(this.camasMatrimoniales);
+        dest.writeValue(this.camasIndividuales);
+        dest.writeValue(this.camasMatrimoniales);
         dest.writeValue(this.tieneEstacionamiento);
         dest.writeParcelable(this.hotel, flags);
-        dest.writeValue(this.id);
+        dest.writeSerializable(this.id);
         dest.writeString(this.titulo);
         dest.writeString(this.descripcion);
         dest.writeValue(this.capacidad);
@@ -125,11 +102,11 @@ public class Habitacion  extends Alojamiento implements Parcelable {
     }
 
     public void readFromParcel(Parcel source) {
-        this.camasIndividuales = source.readInt();
-        this.camasMatrimoniales = source.readInt();
+        this.camasIndividuales = (Integer) source.readValue(Integer.class.getClassLoader());
+        this.camasMatrimoniales = (Integer) source.readValue(Integer.class.getClassLoader());
         this.tieneEstacionamiento = (Boolean) source.readValue(Boolean.class.getClassLoader());
         this.hotel = source.readParcelable(Hotel.class.getClassLoader());
-        this.id = (UUID) source.readValue(UUID.class.getClassLoader());
+        this.id = (UUID) source.readSerializable();
         this.titulo = source.readString();
         this.descripcion = source.readString();
         this.capacidad = (Integer) source.readValue(Integer.class.getClassLoader());
@@ -137,18 +114,18 @@ public class Habitacion  extends Alojamiento implements Parcelable {
     }
 
     protected Habitacion(Parcel in) {
-        this.camasIndividuales = in.readInt();
-        this.camasMatrimoniales = in.readInt();
+        this.camasIndividuales = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.camasMatrimoniales = (Integer) in.readValue(Integer.class.getClassLoader());
         this.tieneEstacionamiento = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.hotel = in.readParcelable(Hotel.class.getClassLoader());
-        this.id = (UUID) in.readValue(UUID.class.getClassLoader());
+        this.id = (UUID) in.readSerializable();
         this.titulo = in.readString();
         this.descripcion = in.readString();
         this.capacidad = (Integer) in.readValue(Integer.class.getClassLoader());
         this.precioBase = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Habitacion> CREATOR = new Parcelable.Creator<>() {
+    public static final Creator<Habitacion> CREATOR = new Creator<Habitacion>() {
         @Override
         public Habitacion createFromParcel(Parcel source) {
             return new Habitacion(source);
@@ -159,20 +136,4 @@ public class Habitacion  extends Alojamiento implements Parcelable {
             return new Habitacion[size];
         }
     };
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "Habitacion{" +
-                "titulo='" + titulo + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", capacidad=" + capacidad +
-                ", precioBase=" + precioBase +
-                ", idAlojamiento=" + idAlojamiento +
-                ", camasIndividuales=" + camasIndividuales +
-                ", camasMatrimoniales=" + camasMatrimoniales +
-                ", tieneEstacionamiento=" + tieneEstacionamiento +
-                ", hotel=" + hotel +
-                '}';
-    }
 }

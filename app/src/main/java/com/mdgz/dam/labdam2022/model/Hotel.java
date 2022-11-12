@@ -3,23 +3,26 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.UUID;
+
 public class Hotel implements Parcelable {
 
-    private Integer id;
+    private UUID id;
 
     private String nombre;
     private Integer categoria;
 
     Ubicacion ubicacion;
 
-    public Hotel(Integer id, String nombre, Integer categoria, Ubicacion ubicacion) {
+    public Hotel(final UUID id, final String nombre, final Integer categoria,
+                 final Ubicacion ubicacion) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.ubicacion = ubicacion;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -35,7 +38,7 @@ public class Hotel implements Parcelable {
         return ubicacion;
     }
 
-    public void setUbicacion(Ubicacion ubicacion) {
+    public void setUbicacion(final Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 
@@ -47,9 +50,10 @@ public class Hotel implements Parcelable {
         this.categoria = categoria;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
+
 
     @Override
     public int describeContents() {
@@ -58,27 +62,27 @@ public class Hotel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
+        dest.writeSerializable(this.id);
         dest.writeString(this.nombre);
         dest.writeValue(this.categoria);
         dest.writeParcelable(this.ubicacion, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.id = (Integer) source.readValue(Integer.class.getClassLoader());
+        this.id = (UUID) source.readSerializable();
         this.nombre = source.readString();
         this.categoria = (Integer) source.readValue(Integer.class.getClassLoader());
         this.ubicacion = source.readParcelable(Ubicacion.class.getClassLoader());
     }
 
     protected Hotel(Parcel in) {
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = (UUID) in.readSerializable();
         this.nombre = in.readString();
         this.categoria = (Integer) in.readValue(Integer.class.getClassLoader());
         this.ubicacion = in.readParcelable(Ubicacion.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Hotel> CREATOR = new Parcelable.Creator<>() {
+    public static final Creator<Hotel> CREATOR = new Creator<Hotel>() {
         @Override
         public Hotel createFromParcel(Parcel source) {
             return new Hotel(source);

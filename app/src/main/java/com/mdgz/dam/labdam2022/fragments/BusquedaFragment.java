@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +15,19 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 
-import com.mdgz.dam.labdam2022.utilities.FileManager;
 import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.factory.AlojamientoRepositoryFactory;
+import com.mdgz.dam.labdam2022.data.factory.CiudadRepositoryFactory;
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Ciudad;
-import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
-import com.mdgz.dam.labdam2022.repo.CiudadRepository;
+import com.mdgz.dam.labdam2022.utilities.FileManager;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BusquedaFragment extends Fragment {
 
@@ -33,8 +37,6 @@ public class BusquedaFragment extends Fragment {
     public BusquedaFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,20 @@ public class BusquedaFragment extends Fragment {
 
         // Se crea una ciudad con nombre vacio y atributos null para utilizarlo como primer elemento del spinner
         ciudades.add(0,new Ciudad(null,"Seleccione una ciudad", null));
-        ciudades.addAll(CiudadRepository.getInstance(requireContext()).listaCiudades());
+
+        final OnResult<List<Ciudad>> ciudadCallback = new OnResult<List<Ciudad>>() {
+            @Override
+            public void onSuccess(List<Ciudad> result) {
+                ciudades.addAll(result);
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+                exception.printStackTrace();
+                Toast.makeText(requireContext(), "No pudieron cargarse las ciudades", Toast.LENGTH_LONG).show();
+            }
+        };
+        AppDataBase.EXECUTOR_DB.execute(() -> CiudadRepositoryFactory.create(requireContext()).recuperarCiudades(ciudadCallback));
 
         ArrayAdapter<Ciudad> ciudadAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item,ciudades);
         binding.ciudadId.setAdapter(ciudadAdapter);
@@ -77,8 +92,19 @@ public class BusquedaFragment extends Fragment {
 
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
-            // TODO Deberia obtenerse de base de datos
-            ArrayList<Alojamiento> listaDatos = new ArrayList<>(AlojamientoRepository.getInstance(requireContext()).listaAlojamientos());
+            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+
+            final OnResult<List<Alojamiento>> alojamientoCallback = new OnResult<List<Alojamiento>>() {
+                @Override
+                public void onSuccess(final List<Alojamiento> result) {
+                    listaDatos.addAll(result);
+                }
+                @Override
+                public void onError(final Throwable exception) {
+                    Toast.makeText(requireContext(), "No pudo realizarse la busqueda", Toast.LENGTH_LONG).show();
+                }
+            };
+            AppDataBase.EXECUTOR_DB.execute(() -> AlojamientoRepositoryFactory.create(requireContext()).recuperarAlojamientos(alojamientoCallback));
 
             Bundle args = new Bundle();
             args.putParcelableArrayList("resultados_busqueda", listaDatos);
@@ -100,15 +126,11 @@ public class BusquedaFragment extends Fragment {
                 if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
                 if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
 
-                //TODO agregar la ciudad en base a la seleccion del spiner
                 if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("Seleccione una ciudad")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
 
-
-                //TODO agregar la cantidad de resultados, es decir, el tamaño de la lista de los alojamientos filtrados
                 registro += "resultados:" + listaDatos.size();
 
                 //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
-
                //Se escribe el archivo
                 FileManager.saveLogFile(registro,requireContext());
             }
