@@ -3,49 +3,83 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcelable;
 import android.text.Editable;
 
-public abstract class Alojamiento implements Parcelable {
+import androidx.annotation.NonNull;
 
-    protected Integer id;
+import java.util.UUID;
+
+public abstract class Alojamiento implements Parcelable {
+    protected UUID id;
     protected String titulo;
     protected String descripcion;
     protected Integer capacidad;
     protected Double precioBase;
 
-    public Alojamiento(){
-        super();
+    // TODO revisar
+    protected Alojamiento() {}
+
+    protected Alojamiento( final String titulo, final String descripcion, final Integer capacidad,
+        final Double precioBase){
+            this(null, titulo, descripcion, capacidad, precioBase);
     }
 
-    public Alojamiento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.capacidad = capacidad;
-        this.precioBase = precioBase;
-    }
+    protected Alojamiento( final UUID id, final String titulo, final String descripcion,
+        final Integer capacidad,
+        final Double precioBase){
+            this.id = id;
+            this.titulo = titulo;
+            this.descripcion = descripcion;
+            this.capacidad = capacidad;
+            this.precioBase = precioBase;
+        }
 
-    public Integer getId() {
-        return id;
-    }
+        public abstract Ubicacion getUbicacion ();
 
-    public String getTitulo() {
-        return titulo;
-    }
+        public Double costoDia () {
+            return precioBase;
+        }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+        @NonNull
+        public UUID getId () {
+            return id;
+        }
 
-    public Integer getCapacidad() {
-        return capacidad;
-    }
+        public String getTitulo () {
+            return titulo;
+        }
 
-    public Double getPrecioBase() {
-        return precioBase;
-    }
+        public String getDescripcion () {
+            return descripcion;
+        }
 
-    public abstract Ubicacion getUbicacion();
+        public Integer getCapacidad () {
+            return capacidad;
+        }
 
-    public Double obtenerCosto(Long days, Double precioBase){
-        return days*precioBase;
+        public Double getPrecioBase () {
+            return precioBase;
+        }
+
+        public Double obtenerCosto (Long days, Double precioBase){
+            return days * precioBase;
+        }
+
+        public void setId (UUID id){
+            this.id = id;
+        }
+
+        public void setTitulo (String titulo){
+            this.titulo = titulo;
+        }
+
+        public void setDescripcion (String descripcion){
+            this.descripcion = descripcion;
+        }
+
+        public void setCapacidad (Integer capacidad){
+            this.capacidad = capacidad;
+        }
+
+        public void setPrecioBase (Double precioBase){
+            this.precioBase = precioBase;
+        }
     }
-}
