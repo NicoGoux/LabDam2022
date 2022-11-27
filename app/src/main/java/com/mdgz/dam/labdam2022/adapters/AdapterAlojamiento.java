@@ -1,5 +1,8 @@
 package com.mdgz.dam.labdam2022.adapters;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +61,6 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
         TextView capacidad;
         TextView precio;
         ImageButton favorito;
-        ImageButton redFavorito;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,20 +70,19 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
             capacidad = itemView.findViewById(R.id.capacidad_item);
             precio = itemView.findViewById(R.id.precio_item);
             favorito = itemView.findViewById(R.id.favoriteButton);
-            redFavorito = itemView.findViewById(R.id.redFavoriteButton);
 
 
 
             favorito.setOnClickListener((View view1) -> {
-                favorito.setVisibility(View.GONE);
-                redFavorito.setVisibility(View.VISIBLE);
-                Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
-            });
 
-            redFavorito.setOnClickListener((View view1) -> {
-                redFavorito.setVisibility(View.GONE);
-                favorito.setVisibility(View.VISIBLE);
-                Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
+                if(favorito.getColorFilter() == null){
+                    favorito.setColorFilter(Color.RED);
+                    Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    favorito.setColorFilter(null);
+                    Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
+                }
             });
         }
 
