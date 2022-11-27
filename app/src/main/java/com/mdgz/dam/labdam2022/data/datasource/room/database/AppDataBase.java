@@ -12,13 +12,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.datasource.room.AlojamientoRoomDataSource;
 import com.mdgz.dam.labdam2022.data.datasource.room.CiudadRoomDataSource;
-import com.mdgz.dam.labdam2022.data.datasource.room.UUIDConverter;
+import com.mdgz.dam.labdam2022.data.datasource.room.Converters;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.AlojamientoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.CiudadDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.DepartamentoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.FavoritoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.HabitacionDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.HotelDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.ReservaDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.UbicacionDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.AlojamientoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.CiudadEntity;
@@ -26,6 +27,7 @@ import com.mdgz.dam.labdam2022.data.datasource.room.entities.DepartamentoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.HabitacionEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.HotelEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.ReservaEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.UbicacionEntity;
 import com.mdgz.dam.labdam2022.model.Ciudad;
 import com.mdgz.dam.labdam2022.model.Departamento;
@@ -45,11 +47,12 @@ import java.util.concurrent.Executors;
                 CiudadEntity.class,
                 UbicacionEntity.class,
                 HotelEntity.class,
-                FavoritoEntity.class
+                FavoritoEntity.class,
+                ReservaEntity.class
         },
         version = 1,
         exportSchema = false)
-@TypeConverters({ UUIDConverter.class })
+@TypeConverters({ Converters.class })
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract AlojamientoDAO alojamientoDAO();
@@ -65,6 +68,8 @@ public abstract class AppDataBase extends RoomDatabase {
     public abstract HotelDAO hotelDAO();
 
     public abstract FavoritoDAO favoritoDAO();
+
+    public abstract ReservaDAO reservaDAO();
 
     private static final String DATABASE_NAME = "db_sistema_alojamientos";
     private static AppDataBase instance;

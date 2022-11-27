@@ -4,8 +4,6 @@ import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.datasource.FavoritoDataSource;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
-import java.util.List;
-
 public class FavoritoRepository implements FavoritoDataSource {
 
     private final FavoritoDataSource ds;

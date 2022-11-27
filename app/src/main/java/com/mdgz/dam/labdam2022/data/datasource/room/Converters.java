@@ -1,19 +1,20 @@
-package com.mdgz.dam.labdam2022.utilities;
+package com.mdgz.dam.labdam2022.data.datasource.room;
 
 import androidx.room.TypeConverter;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 public class Converters {
     @TypeConverter
-    public static Long fromInstant(Instant value) {
-        return (value == null ? null : value.toEpochMilli());
+    public static Long fromDate(Date value) {
+        return (value == null ? null : value.toInstant().toEpochMilli());
     }
 
     @TypeConverter
-    public static Instant dateToInstant(Long value) {
-        return (value == null ? null : Instant.ofEpochMilli(value));
+    public static Date dateFromLong(Long value) {
+        return (value == null ? null : Date.from(Instant.ofEpochMilli(value)));
     }
 
     @TypeConverter

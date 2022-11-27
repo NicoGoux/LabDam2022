@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +17,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
+import com.mdgz.dam.labdam2022.data.factory.ReservaRepositoryFactory;
 import com.mdgz.dam.labdam2022.data.repository.FavoritoRepository;
-import com.mdgz.dam.labdam2022.model.Favorito;
-import com.mdgz.dam.labdam2022.utilities.DatePickerFragment;
+import com.mdgz.dam.labdam2022.data.repository.ReservaRepository;
 import com.mdgz.dam.labdam2022.databinding.FragmentDetalleAlojamientoBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Departamento;
+import com.mdgz.dam.labdam2022.model.Favorito;
 import com.mdgz.dam.labdam2022.model.Habitacion;
+import com.mdgz.dam.labdam2022.model.Reserva;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
+import com.mdgz.dam.labdam2022.utilities.DatePickerFragment;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.UUID;
 
 public class DetalleAlojamientoFragment extends Fragment {
@@ -68,7 +69,11 @@ public class DetalleAlojamientoFragment extends Fragment {
         }
 
         UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
-        FavoritoRepository fr = FavoritoRepositoryFactory.create(requireContext());
+
+        // Se instancian los repositorios
+        FavoritoRepository favoritoRepository = FavoritoRepositoryFactory.create(requireContext());
+        ReservaRepository reservaRepository = ReservaRepositoryFactory.create(requireContext());
+
         // Se completan y muestran los campos dependiendo si
         // se selecciono un departamento o una habitacion
 
@@ -172,7 +177,7 @@ public class DetalleAlojamientoFragment extends Fragment {
                     exception.printStackTrace();
                 }
             };
-            AppDataBase.EXECUTOR_DB.execute(() -> fr.perteneceFavorito(new Favorito(finalAlojamiento.getId(), user_id),perteneceCallback));
+            AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.perteneceFavorito(new Favorito(finalAlojamiento.getId(), user_id),perteneceCallback));
 
             binding.favoriteButton.setOnClickListener((View view1) -> {
                 if(binding.favoriteButton.getColorFilter() == null){
@@ -189,7 +194,7 @@ public class DetalleAlojamientoFragment extends Fragment {
                             exception.printStackTrace();
                         }
                     };
-                    AppDataBase.EXECUTOR_DB.execute(() -> fr.guardarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.guardarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
                 }
                 else{
                     binding.favoriteButton.setColorFilter(null);
@@ -203,12 +208,47 @@ public class DetalleAlojamientoFragment extends Fragment {
                             exception.printStackTrace();
                         }
                     };
-                    AppDataBase.EXECUTOR_DB.execute(() -> fr.eliminarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.eliminarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
                 }
             });
 
             // Se muestra un Toast de que la reserva se creo con exito
-            binding.reservarButtonId.setOnClickListener((View view1) -> { Toast.makeText(view1.getContext(), "Reserva creada con exito",Toast.LENGTH_SHORT).show(); });
+            binding.reservarButtonId.setOnClickListener((View view1) -> {
+                String fechaIngresoString = binding.fechaIngresoId.getText().toString();
+                String fechaEgresoString = binding.fechaEgresoId.getText().toString();
+
+                if (fechaEgresoString.isEmpty() || fechaEgresoString.isEmpty()) {
+                    Toast.makeText(view1.getContext(), "Complete las fechas de entrada y salida", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d / M / yyyy");
+                LocalDate fechaIngreso = LocalDate.parse(fechaIngresoString,formatter);
+                LocalDate fechaEgreso = LocalDate.parse(fechaEgresoString,formatter);
+
+                // Se convierten las fechas LocalDate a Date
+                Date fechaIngresoDate = Date.from(fechaIngreso.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date fechaEgresoDate = Date.from(fechaEgreso.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                OnResult<Reserva> guardarReservaCallback = new OnResult<Reserva>() {
+                    @Override
+                    public void onSuccess(Reserva result) {
+                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "Reserva guardada", Toast.LENGTH_SHORT).show());
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "No pudo guardarse la reserva", Toast.LENGTH_SHORT).show());
+                        exception.printStackTrace();
+                    }
+                };
+
+                AppDataBase.EXECUTOR_DB.execute(() -> reservaRepository.guardarReserva(new Reserva(
+                        finalAlojamiento.getId(),
+                        user_id,
+                        fechaIngresoDate,
+                        fechaEgresoDate
+                ), guardarReservaCallback));
+            });
         }
     }
 
@@ -224,15 +264,11 @@ public class DetalleAlojamientoFragment extends Fragment {
             LocalDate dateIngreso = LocalDate.parse(fechaIngreso,formatter);
             LocalDate dateEgreso = LocalDate.parse(fechaEgreso,formatter);
 
-            Log.i("fechaIngreso: ",dateIngreso.toString());
-            Log.i("fechaEgreso: ",dateEgreso.toString());
-
             Duration duration = Duration.between(dateIngreso.atStartOfDay(),dateEgreso.atStartOfDay());
             // Se obtienen los dias en valor absoluto
             Long days = abs(duration.toDays());
             Double costoTotal = alojamiento.obtenerCosto(days,alojamiento.getPrecioBase());
             binding.precioDetalleId.setText("Costo total: $" + costoTotal.toString());
-
         }
 
     }

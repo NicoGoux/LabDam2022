@@ -10,6 +10,13 @@ public class Reserva {
     Date fechaIngreso;
     Date fechaSalida;
 
+    public Reserva(UUID alojamientoID, UUID usuarioID, Date fechaIngreso, Date fechaSalida) {
+        this.alojamientoID = alojamientoID;
+        this.usuarioID = usuarioID;
+        this.fechaIngreso = fechaIngreso;
+        this.fechaSalida = fechaSalida;
+    }
+
     public UUID getAlojamientoID() {
         return alojamientoID;
     }

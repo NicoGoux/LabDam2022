@@ -3,8 +3,6 @@ package com.mdgz.dam.labdam2022.data.datasource;
 import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
-import java.util.List;
-
 public interface FavoritoDataSource {
     /**
      * Guarda un nuevo favorito

@@ -1,7 +1,6 @@
 package com.mdgz.dam.labdam2022.model;
 
 import android.os.Parcelable;
-import android.text.Editable;
 
 import androidx.annotation.NonNull;
 
