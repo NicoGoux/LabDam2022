@@ -15,9 +15,13 @@ public interface FavoritoDAO {
     @Insert
     void insertar(FavoritoEntity favorito);
 
-    @Query("SELECT * FROM favoritoentity")
-    FavoritoEntity[] recuperarFavoritos();
-
     @Delete
     void eliminar(FavoritoEntity favorito);
+
+    @Query("SELECT alojamiento_id FROM favoritoentity WHERE alojamiento_id=:alojamiento_id AND usuario_id=:usuario_id")
+    UUID pertenece(UUID alojamiento_id, UUID usuario_id);
+
+
+    @Query("SELECT * FROM favoritoentity")
+    FavoritoEntity[] recuperarFavoritos();
 }

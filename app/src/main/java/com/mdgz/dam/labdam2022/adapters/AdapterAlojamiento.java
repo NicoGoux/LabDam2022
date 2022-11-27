@@ -1,5 +1,6 @@
 package com.mdgz.dam.labdam2022.adapters;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -14,12 +15,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
 
 import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
+import com.mdgz.dam.labdam2022.data.repository.FavoritoRepository;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.model.Favorito;
 import com.mdgz.dam.labdam2022.model.Habitacion;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.ViewHolder> {
 
@@ -40,7 +48,47 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.asignarDatos(listaDatos.get(position));
+        Alojamiento alojamiento = listaDatos.get(position);
+
+        FavoritoRepository fr = FavoritoRepositoryFactory.create(holder.context);
+
+        holder.asignarDatos(alojamiento, fr);
+
+        UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
+
+        holder.favorito.setOnClickListener((View view1) -> {
+            if(holder.favorito.getColorFilter() == null){
+                holder.favorito.setColorFilter(Color.RED);
+                OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
+                    @Override
+                    public void onSuccess(Favorito result) {
+//                        Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+//                        Toast.makeText(view1.getContext(), "No pudo añadirse a favoritos",Toast.LENGTH_SHORT).show();
+                        exception.printStackTrace();
+                    }
+                };
+                AppDataBase.EXECUTOR_DB.execute(() -> fr.guardarFavorito(new Favorito(alojamiento.getId(), user_id), favoritoCallback));
+            }
+            else{
+                holder.favorito.setColorFilter(null);
+                OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
+                    @Override
+                    public void onSuccess(Favorito result) {
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+                        exception.printStackTrace();
+                    }
+                };
+                AppDataBase.EXECUTOR_DB.execute(() -> fr.eliminarFavorito(new Favorito(alojamiento.getId(), user_id), favoritoCallback));
+            }
+        });
+
         holder.itemView.setOnClickListener(view -> {
             Bundle args = new Bundle();
             Alojamiento seleccionado = listaDatos.get(holder.getLayoutPosition());
@@ -62,6 +110,9 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
         TextView precio;
         ImageButton favorito;
 
+        // TODO ????
+        Context context;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -70,23 +121,10 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
             capacidad = itemView.findViewById(R.id.capacidad_item);
             precio = itemView.findViewById(R.id.precio_item);
             favorito = itemView.findViewById(R.id.favoriteButton);
-
-
-
-            favorito.setOnClickListener((View view1) -> {
-
-                if(favorito.getColorFilter() == null){
-                    favorito.setColorFilter(Color.RED);
-                    Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    favorito.setColorFilter(null);
-                    Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
-                }
-            });
+            context = itemView.getContext();
         }
 
-        public void asignarDatos(Alojamiento alojamiento) {
+        public void asignarDatos(Alojamiento alojamiento, FavoritoRepository fr) {
             if (alojamiento instanceof Habitacion) {
                 titulo.setText(((Habitacion) alojamiento).getHotel().getNombre());
             }

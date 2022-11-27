@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.materialToolbar);
         setContentView(binding.getRoot());
 
+
         AppDataBase.getInstance(this);
     }
 
@@ -41,6 +42,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
 

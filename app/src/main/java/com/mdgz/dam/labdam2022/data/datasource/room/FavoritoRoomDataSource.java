@@ -10,6 +10,7 @@ import com.mdgz.dam.labdam2022.data.datasource.room.mapper.FavoritoMapper;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
 import java.util.List;
+import java.util.UUID;
 
 public class FavoritoRoomDataSource implements FavoritoDataSource {
 
@@ -26,6 +27,8 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
     @Override
     public void guardarFavorito(Favorito favorito, OnResult<Favorito> callback) {
         try {
+
+
             favoritoDAO.insertar(FavoritoMapper.toEntity(favorito));
             callback.onSuccess(favorito);
         }
@@ -36,16 +39,28 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
 
     @Override
     public void eliminarFavorito(Favorito favorito, OnResult<Favorito> callback) {
-
+        try {
+            favoritoDAO.eliminar(FavoritoMapper.toEntity(favorito));
+            callback.onSuccess(favorito);
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
     }
 
     @Override
     public void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback) {
-
-    }
-
-    @Override
-    public void recuperarFavoritos(OnResult<List<Favorito>> callback) {
-
+        try {
+            UUID alojamiento_id = favoritoDAO.pertenece(favorito.getAlojamientoId(), favorito.getUsuarioID());
+            if (alojamiento_id != null) {
+                callback.onSuccess(true);
+            }
+            else {
+                callback.onSuccess(false);
+            }
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
     }
 }

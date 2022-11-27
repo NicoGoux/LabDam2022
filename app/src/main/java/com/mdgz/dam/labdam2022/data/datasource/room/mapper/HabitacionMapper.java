@@ -22,8 +22,9 @@ public class HabitacionMapper {
     }
 
     public static Habitacion fromEntity(HabitacionEntity habitacion, AlojamientoEntity alojamiento) {
+        // TODO se le asigna el AlojamientoId para corresponder con una sola tabla tanto para la habitacion como para el departamento
         return new Habitacion(
-            habitacion.getId(),
+            alojamiento.getId(),
             alojamiento.getTitulo(),
             alojamiento.getDescripcion(),
             alojamiento.getCapacidad(),

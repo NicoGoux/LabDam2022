@@ -62,7 +62,6 @@ public class AlojamientoRoomDataSource implements AlojamientoDataSource {
             final AlojamientoEntity ae = AlojamientoMapper.toEntity(habitacion);
             alojamientoDAO.insertar(ae);
 
-
             final Hotel hotel = habitacion.getHotel();
             final Ubicacion ubicacion = hotel.getUbicacion();
 

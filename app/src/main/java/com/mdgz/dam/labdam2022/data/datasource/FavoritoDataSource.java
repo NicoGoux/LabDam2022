@@ -11,12 +11,13 @@ public interface FavoritoDataSource {
      **/
     void guardarFavorito(Favorito favorito, OnResult<Favorito> callback);
 
+    /**
+     * elimina un favorito
+     **/
     void eliminarFavorito(Favorito favorito, OnResult<Favorito> callback);
 
-    void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback);
-
     /**
-     * Recupera la lista de favoritos
+     * Consulta si el elemento se encuentra en los favoritos
      **/
-    void recuperarFavoritos(OnResult<List<Favorito>> callback);
+    void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback);
 }

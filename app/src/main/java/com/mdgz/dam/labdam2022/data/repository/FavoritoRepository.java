@@ -28,9 +28,4 @@ public class FavoritoRepository implements FavoritoDataSource {
     public void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback) {
         ds.perteneceFavorito(favorito,callback);
     }
-
-    @Override
-    public void recuperarFavoritos(OnResult<List<Favorito>> callback) {
-
-    }
 }
