@@ -16,12 +16,14 @@ import com.mdgz.dam.labdam2022.data.datasource.room.UUIDConverter;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.AlojamientoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.CiudadDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.DepartamentoDAO;
+import com.mdgz.dam.labdam2022.data.datasource.room.dao.FavoritoDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.HabitacionDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.HotelDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.dao.UbicacionDAO;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.AlojamientoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.CiudadEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.DepartamentoEntity;
+import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.HabitacionEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.HotelEntity;
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.UbicacionEntity;
@@ -35,9 +37,18 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = { AlojamientoEntity.class, DepartamentoEntity.class, HabitacionEntity.class, CiudadEntity.class, UbicacionEntity.class, HotelEntity.class},
-    version = 1,
-    exportSchema = false)
+@Database(
+        entities = {
+                AlojamientoEntity.class,
+                DepartamentoEntity.class,
+                HabitacionEntity.class,
+                CiudadEntity.class,
+                UbicacionEntity.class,
+                HotelEntity.class,
+                FavoritoEntity.class
+        },
+        version = 1,
+        exportSchema = false)
 @TypeConverters({ UUIDConverter.class })
 public abstract class AppDataBase extends RoomDatabase {
 
@@ -52,6 +63,8 @@ public abstract class AppDataBase extends RoomDatabase {
     public abstract UbicacionDAO ubicacionDAO();
 
     public abstract HotelDAO hotelDAO();
+
+    public abstract FavoritoDAO favoritoDAO();
 
     private static final String DATABASE_NAME = "db_sistema_alojamientos";
     private static AppDataBase instance;

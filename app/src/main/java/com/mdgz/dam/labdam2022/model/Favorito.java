@@ -7,6 +7,10 @@ public class Favorito {
 
     private UUID usuarioID;
 
+    public Favorito(UUID alojamientoId, UUID usuarioID) {
+        this.alojamientoId = alojamientoId;
+        this.usuarioID = usuarioID;
+    }
 
     public UUID getAlojamientoId() {
         return alojamientoId;

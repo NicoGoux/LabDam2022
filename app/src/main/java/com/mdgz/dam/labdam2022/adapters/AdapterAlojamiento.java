@@ -62,12 +62,15 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             titulo = itemView.findViewById(R.id.titulo_item);
             descripcion = itemView.findViewById(R.id.descripcion_item);
             capacidad = itemView.findViewById(R.id.capacidad_item);
             precio = itemView.findViewById(R.id.precio_item);
             favorito = itemView.findViewById(R.id.favoriteButton);
             redFavorito = itemView.findViewById(R.id.redFavoriteButton);
+
+
 
             favorito.setOnClickListener((View view1) -> {
                 favorito.setVisibility(View.GONE);
