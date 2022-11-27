@@ -1,21 +1,17 @@
 package com.mdgz.dam.labdam2022.adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
@@ -48,13 +44,13 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Alojamiento alojamiento = listaDatos.get(position);
 
-        FavoritoRepository fr = FavoritoRepositoryFactory.create(holder.context);
-
-        holder.asignarDatos(alojamiento, fr);
-
+        // TODO hardcodeado porque no sabiamos como obtener un UUID de la aplicacion
         UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
+        FavoritoRepository fr = FavoritoRepositoryFactory.create(holder.context);
+        holder.asignarDatos(alojamiento, fr, user_id);
 
         holder.favorito.setOnClickListener((View view1) -> {
             if(holder.favorito.getColorFilter() == null){
@@ -124,7 +120,7 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
             context = itemView.getContext();
         }
 
-        public void asignarDatos(Alojamiento alojamiento, FavoritoRepository fr) {
+        public void asignarDatos(Alojamiento alojamiento, FavoritoRepository fr, UUID user_id) {
             if (alojamiento instanceof Habitacion) {
                 titulo.setText(((Habitacion) alojamiento).getHotel().getNombre());
             }
@@ -135,6 +131,23 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
             descripcion.setText(alojamiento.getDescripcion());
             capacidad.setText("Capacidad: " + alojamiento.getCapacidad());
             precio.setText("ARS$"+alojamiento.getPrecioBase());
+
+            OnResult<Boolean> perteneceCallback = new OnResult<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    if (result) {
+                        favorito.setColorFilter(Color.RED);
+                    }
+                    else {
+                        favorito.setColorFilter(null);
+                    }
+                }
+                @Override
+                public void onError(Throwable exception) {
+                    exception.printStackTrace();
+                }
+            };
+            AppDataBase.EXECUTOR_DB.execute(() -> fr.perteneceFavorito(new Favorito(alojamiento.getId(), user_id),perteneceCallback));
         }
     }
 }

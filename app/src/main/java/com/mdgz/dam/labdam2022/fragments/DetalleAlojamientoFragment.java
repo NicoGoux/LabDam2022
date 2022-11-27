@@ -3,6 +3,7 @@ package com.mdgz.dam.labdam2022.fragments;
 import static java.lang.Math.abs;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
+import com.mdgz.dam.labdam2022.data.repository.FavoritoRepository;
+import com.mdgz.dam.labdam2022.model.Favorito;
 import com.mdgz.dam.labdam2022.utilities.DatePickerFragment;
 import com.mdgz.dam.labdam2022.databinding.FragmentDetalleAlojamientoBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
@@ -30,6 +36,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 public class DetalleAlojamientoFragment extends Fragment {
 
@@ -60,6 +67,8 @@ public class DetalleAlojamientoFragment extends Fragment {
             alojamiento = getArguments().getParcelable("alojamiento_seleccionado");
         }
 
+        UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
+        FavoritoRepository fr = FavoritoRepositoryFactory.create(requireContext());
         // Se completan y muestran los campos dependiendo si
         // se selecciono un departamento o una habitacion
 
@@ -99,8 +108,10 @@ public class DetalleAlojamientoFragment extends Fragment {
                 binding.ubicacionDetalle.setVisibility(View.VISIBLE);
 
             }
+
             // Se copia el contenido de alojamiento ya que no es null en este punto
             Alojamiento finalAlojamiento = alojamiento;
+
             binding.fechaIngresoId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -145,17 +156,55 @@ public class DetalleAlojamientoFragment extends Fragment {
             binding.fechaIngresoId.addTextChangedListener(fechaWatcher);
             binding.fechaEgresoId.addTextChangedListener(fechaWatcher);
 
-            // Se simula el boton favorito encendido
-            binding.favoriteButton.setOnClickListener((View view1) -> {
-                binding.favoriteButton.setVisibility(View.GONE);
-                binding.redFavoriteButton.setVisibility(View.VISIBLE);
-                Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
-            });
+            // Se setea el color del boton de favorito si pertenece o no a favorito
+            OnResult<Boolean> perteneceCallback = new OnResult<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    if (result) {
+                        binding.favoriteButton.setColorFilter(Color.RED);
+                    }
+                    else {
+                        binding.favoriteButton.setColorFilter(null);
+                    }
+                }
+                @Override
+                public void onError(Throwable exception) {
+                    exception.printStackTrace();
+                }
+            };
+            AppDataBase.EXECUTOR_DB.execute(() -> fr.perteneceFavorito(new Favorito(finalAlojamiento.getId(), user_id),perteneceCallback));
 
-            binding.redFavoriteButton.setOnClickListener((View view1) -> {
-                binding.redFavoriteButton.setVisibility(View.GONE);
-                binding.favoriteButton.setVisibility(View.VISIBLE);
-                Toast.makeText(view1.getContext(), "Eliminado de favoritos",Toast.LENGTH_SHORT).show();
+            binding.favoriteButton.setOnClickListener((View view1) -> {
+                if(binding.favoriteButton.getColorFilter() == null){
+                    binding.favoriteButton.setColorFilter(Color.RED);
+                    OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
+                        @Override
+                        public void onSuccess(Favorito result) {
+//                        Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+//                        Toast.makeText(view1.getContext(), "No pudo añadirse a favoritos",Toast.LENGTH_SHORT).show();
+                            exception.printStackTrace();
+                        }
+                    };
+                    AppDataBase.EXECUTOR_DB.execute(() -> fr.guardarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
+                }
+                else{
+                    binding.favoriteButton.setColorFilter(null);
+                    OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
+                        @Override
+                        public void onSuccess(Favorito result) {
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+                            exception.printStackTrace();
+                        }
+                    };
+                    AppDataBase.EXECUTOR_DB.execute(() -> fr.eliminarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
+                }
             });
 
             // Se muestra un Toast de que la reserva se creo con exito
