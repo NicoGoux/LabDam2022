@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
 import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.retrofit.AppRetrofit;
 import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
 import com.mdgz.dam.labdam2022.data.factory.ReservaRepositoryFactory;
@@ -32,12 +35,15 @@ import com.mdgz.dam.labdam2022.model.Reserva;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
 import com.mdgz.dam.labdam2022.utilities.DatePickerFragment;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
+
+import retrofit2.Response;
 
 public class DetalleAlojamientoFragment extends Fragment {
 
@@ -242,12 +248,25 @@ public class DetalleAlojamientoFragment extends Fragment {
                     }
                 };
 
-                AppDataBase.EXECUTOR_DB.execute(() -> reservaRepository.guardarReserva(new Reserva(
-                        finalAlojamiento.getId(),
-                        user_id,
-                        fechaIngresoDate,
-                        fechaEgresoDate
-                ), guardarReservaCallback));
+                final Reserva reserva = new Reserva(finalAlojamiento.getId(), user_id, fechaIngresoDate, fechaEgresoDate);
+
+                AppDataBase.EXECUTOR_DB.execute(() -> reservaRepository.guardarReserva(reserva, guardarReservaCallback));
+
+                //TODO
+                AppRetrofit.EXECUTOR_DB.execute(() -> {
+                    try {
+                        Gson gson = new Gson();
+                        Response<Reserva> response = AppRetrofit.getInstance().appApiRest.crearReserva(reserva).execute();
+                        if (response.isSuccessful()) {
+                            Log.i("Reserva", reserva.toString());
+                        }
+                        else {
+                            Log.i("ERROR", response.errorBody() + "("+ response.code()+ ")");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             });
         }
     }
