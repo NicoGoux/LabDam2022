@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022.data.datasource.retrofit;
+package com.mdgz.dam.labdam2022.data.datasource.retrofit.entities;
 
 import com.mdgz.dam.labdam2022.model.Reserva;
 
@@ -10,7 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-public interface AppApiRest {
+public interface ReservaApiRest {
     @Headers("Authorization: Basic UkFORzoxMjM0NQ==")
     @GET("reserva")
     Call<List<Reserva>> listarReservas();
