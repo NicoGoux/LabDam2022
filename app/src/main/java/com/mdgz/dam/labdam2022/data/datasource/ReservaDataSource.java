@@ -16,4 +16,6 @@ public interface ReservaDataSource {
      * Consulta las reservas de un usuario
      **/
     void consultarReservas(UUID userId, OnResult<List<Reserva>> callback);
+
+    void limpiarReservas(OnResult<Boolean> callback);
 }

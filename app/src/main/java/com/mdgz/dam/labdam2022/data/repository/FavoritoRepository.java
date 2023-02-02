@@ -30,7 +30,12 @@ public class FavoritoRepository implements FavoritoDataSource {
         ds.perteneceFavorito(favorito,callback);
     }
 
-    public void listarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
-        ds.listarFavoritos(userId, callback);
+    public void consultarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
+        ds.consultarFavoritos(userId, callback);
     }
+
+    public void limpiarFavoritos(OnResult<Boolean> callback) {
+        ds.limpiarFavoritos(callback);
+    }
+
 }

@@ -65,7 +65,16 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
     }
 
     @Override
-    public void listarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
-
+    public void limpiarFavoritos(OnResult<Boolean> callback) {
+        try {
+            favoritoDAO.clearTable();
+            callback.onSuccess(true);
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
     }
+
+    @Override
+    public void consultarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {}
 }

@@ -24,4 +24,8 @@ public class ReservaRepository implements ReservaDataSource {
     public void consultarReservas(UUID userId, OnResult<List<Reserva>> callback) {
         ds.consultarReservas(userId, callback);
     }
+
+    public void limpiarReservas(OnResult<Boolean> callback) {
+        ds.limpiarReservas(callback);
+    }
 }

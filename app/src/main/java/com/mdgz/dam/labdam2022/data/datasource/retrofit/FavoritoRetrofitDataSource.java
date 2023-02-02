@@ -1,7 +1,5 @@
 package com.mdgz.dam.labdam2022.data.datasource.retrofit;
 
-import android.util.Log;
-
 import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.datasource.FavoritoDataSource;
 import com.mdgz.dam.labdam2022.data.datasource.retrofit.entities.FavoritoApiRest;
@@ -31,14 +29,13 @@ public class FavoritoRetrofitDataSource implements FavoritoDataSource {
     public void guardarFavorito(Favorito favorito, OnResult<Favorito> callback) {
         try {
             Response<Favorito> response = favoritoApiRest.crearFavorito(favorito).execute();
-            IsSuccessful<Favorito> responseStatus = new IsSuccessful<Favorito>() {
+            IsSuccessful<Favorito> responseStatus = new IsSuccessful<>() {
                 @Override
                 public void isSuccessful(Response<Favorito> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
+                    } else {
+                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: " + response.code());
                     }
                 }
             };
@@ -53,14 +50,13 @@ public class FavoritoRetrofitDataSource implements FavoritoDataSource {
         try {
             Response<String> response = favoritoApiRest.eliminarFavorito(favorito.getAlojamientoId()).execute();
 
-            IsSuccessful<String> responseStatus = new IsSuccessful<String>() {
+            IsSuccessful<String> responseStatus = new IsSuccessful<>() {
                 @Override
                 public void isSuccessful(Response<String> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(favorito);
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
+                    } else {
+                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: " + response.code());
                     }
                 }
             };
@@ -72,49 +68,17 @@ public class FavoritoRetrofitDataSource implements FavoritoDataSource {
     }
 
     @Override
-    public void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback) {
-        try {
-            Response<List<Favorito>> response = favoritoApiRest.listarFavoritos(favorito.getUsuarioID()).execute();
-
-            IsSuccessful<List<Favorito>> responseStatus = new IsSuccessful<List<Favorito>>() {
-                @Override
-                public void isSuccessful(Response<List<Favorito>> response) throws IOException {
-                    if (response.isSuccessful()) {
-                        Boolean contain = false;
-                        Log.i("lista favoritos", response.body().toString());
-                        for (Favorito fav : response.body()) {
-                            if (fav.getAlojamientoId().equals(favorito.getAlojamientoId())) {
-
-                                contain = true;
-                                break;
-                            }
-                        }
-                        callback.onSuccess(contain);
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
-                    }
-                }
-            };
-            responseStatus.isSuccessful(response);
-        } catch (IOException e) {
-            callback.onError(e);
-        }
-    }
-
-    @Override
-    public void listarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
+    public void consultarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
         try {
             Response<List<Favorito>> response = favoritoApiRest.listarFavoritos(userId).execute();
 
-            IsSuccessful<List<Favorito>> responseStatus = new IsSuccessful<List<Favorito>>() {
+            IsSuccessful<List<Favorito>> responseStatus = new IsSuccessful<>() {
                 @Override
                 public void isSuccessful(Response<List<Favorito>> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
+                    } else {
+                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: " + response.code());
                     }
                 }
             };
@@ -123,4 +87,10 @@ public class FavoritoRetrofitDataSource implements FavoritoDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void limpiarFavoritos(OnResult<Boolean> callback) {}
+
+    @Override
+    public void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback) {}
 }

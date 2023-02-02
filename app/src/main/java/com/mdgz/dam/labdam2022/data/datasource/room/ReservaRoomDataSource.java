@@ -38,4 +38,15 @@ public class ReservaRoomDataSource implements ReservaDataSource {
     public void consultarReservas(UUID userId, OnResult<List<Reserva>> callback) {
 
     }
+
+    @Override
+    public void limpiarReservas(OnResult<Boolean> callback) {
+        try {
+            reservaDAO.clearTable();
+            callback.onSuccess(true);
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
+    }
 }

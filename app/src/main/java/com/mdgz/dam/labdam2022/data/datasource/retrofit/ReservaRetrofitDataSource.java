@@ -29,14 +29,13 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
     public void guardarReserva(Reserva reserva, OnResult<Reserva> callback) {
         try {
             Response<Reserva> response = reservaApiRest.crearReserva(reserva).execute();
-            IsSuccessful<Reserva> responseStatus = new IsSuccessful<Reserva>() {
+            IsSuccessful<Reserva> responseStatus = new IsSuccessful<>() {
                 @Override
                 public void isSuccessful(Response<Reserva> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
+                    } else {
+                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: " + response.code());
                     }
                 }
             };
@@ -48,15 +47,14 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
 
     public void consultarReservas(UUID userId, OnResult<List<Reserva>> callback) {
         try {
-            Response<List<Reserva>> response = reservaApiRest.listarReservas().execute();
-            IsSuccessful<List<Reserva>> responseStatus = new IsSuccessful<List<Reserva>>() {
+            Response<List<Reserva>> response = reservaApiRest.listarReservas(userId).execute();
+            IsSuccessful<List<Reserva>> responseStatus = new IsSuccessful<>() {
                 @Override
                 public void isSuccessful(Response<List<Reserva>> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
-                    }
-                    else {
-                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: "+response.code());
+                    } else {
+                        throw new IOException("No pudo completarse la solicitud a la API, Codigo de error: " + response.code());
                     }
                 }
             };
@@ -65,4 +63,7 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void limpiarReservas(OnResult<Boolean> callback) {}
 }

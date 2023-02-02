@@ -22,5 +22,7 @@ public interface FavoritoDataSource {
      **/
     void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback);
 
-    void listarFavoritos(UUID userId, OnResult<List<Favorito>> callback);
+    void consultarFavoritos(UUID userId, OnResult<List<Favorito>> callback);
+
+    void limpiarFavoritos(OnResult<Boolean> callback);
 }
