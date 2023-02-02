@@ -9,6 +9,7 @@ import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.datasource.room.mapper.FavoritoMapper;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
+import java.util.List;
 import java.util.UUID;
 
 public class FavoritoRoomDataSource implements FavoritoDataSource {
@@ -62,4 +63,18 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void limpiarFavoritos(OnResult<Boolean> callback) {
+        try {
+            favoritoDAO.clearTable();
+            callback.onSuccess(true);
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void consultarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {}
 }
