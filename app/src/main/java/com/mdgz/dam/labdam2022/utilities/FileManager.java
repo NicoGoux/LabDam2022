@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.utilities;
 
 import android.content.Context;
 

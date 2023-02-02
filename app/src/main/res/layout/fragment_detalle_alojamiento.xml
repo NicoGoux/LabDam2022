@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetalleAlojamientoFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".fragments.DetalleAlojamientoFragment">
     
     <ScrollView
         android:layout_width="match_parent"
@@ -211,6 +209,7 @@
 
             <TextView
                 android:id="@+id/precioDetalleId"
+                android:text="$0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -241,16 +240,6 @@
                         android:minWidth="125dp"
                         android:tooltipText="Agregar a favoritos"
                         android:src="@drawable/baseline_favorite_black_24" />
-
-                    <ImageButton
-                        android:id="@+id/redFavoriteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:minWidth="125dp"
-                        android:visibility="gone"
-                        android:src="@drawable/baseline_favorite_black_24"
-                        app:tint="@android:color/holo_red_dark" />
 
                     <Button
                         android:id="@+id/reservarButtonId"

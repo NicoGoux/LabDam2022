@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mdgz.dam.labdam2022.R;
+import com.mdgz.dam.labdam2022.adapters.AdapterAlojamiento;
 import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
-import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 
 import java.util.ArrayList;
 

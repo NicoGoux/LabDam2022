@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.mdgz.dam.labdam2022.R;
 
 import java.util.ArrayList;
 
@@ -67,8 +69,8 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         }
 
         public void asignarDatos(String line) {
-            //TODO uso campos genericos porque sino tendria que saber que campos estan completos
-            // para asignar los datos a esos campos
+            //Se usan campos genericos porque sino se tendria que saber que campos estan completos
+            // para asignar los datos a dichos campos
             for (String logItem : line.split(",")) {
                 if (timeStamp.getText() == "") timeStamp.setText(logItem);
                 else if (campo1.getText() == "") campo1.setText(logItem);

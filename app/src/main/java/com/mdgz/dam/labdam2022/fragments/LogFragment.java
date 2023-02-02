@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mdgz.dam.labdam2022.utilities.FileManager;
+import com.mdgz.dam.labdam2022.adapters.AdapterLog;
 import com.mdgz.dam.labdam2022.databinding.FragmentLogBinding;
 
 import java.util.ArrayList;
