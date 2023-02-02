@@ -1,4 +1,4 @@
-package com.mdgz.dam.labdam2022;
+package com.mdgz.dam.labdam2022.fragments;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -11,6 +11,9 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
+
+import com.mdgz.dam.labdam2022.utilities.FileManager;
+import com.mdgz.dam.labdam2022.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 

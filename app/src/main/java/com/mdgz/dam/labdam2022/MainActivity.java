@@ -9,18 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
+import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.materialToolbar);
         setContentView(binding.getRoot());
+
+
+        AppDataBase.getInstance(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -38,10 +42,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //TODO el recycler del log no funciona [: no entiendo bien como se maneja.
-    // revisa la funcion asignarDatos de la clase AdapterLog y el comentario.
-    // revisa el log_item_list.xml
-    // en la clase BusquedaFragment no pude agregar las ciudades al spinner en la linea 94
 }
 

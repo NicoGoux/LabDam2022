@@ -3,22 +3,26 @@ package com.mdgz.dam.labdam2022.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.UUID;
+
 public class Departamento extends Alojamiento implements Parcelable {
 
     private Boolean tieneWifi;
     private Double costoLimpieza;
     private Integer cantidadHabitaciones;
     private Ubicacion ubicacion;
-
-    public void setUbicacion(Ubicacion ubicacion) {
-        this.ubicacion = ubicacion;
+    public Departamento(final String titulo, final String descripcion, final Integer capacidad,
+                        final Double precioBase, final Boolean tieneWifi, final Double costoLimpieza,
+                        final Integer cantidadHabitaciones,
+                        final Ubicacion ubicacion) {
+        this(null, titulo, descripcion, capacidad, precioBase, tieneWifi, costoLimpieza, cantidadHabitaciones,
+                ubicacion);
     }
 
-    public Departamento(){
-        super();
-    }
-
-    public Departamento(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, Boolean tieneWifi, Double costoLimpieza, Integer cantidadHabitaciones,Ubicacion ubicacion) {
+    public Departamento(final UUID id, final String titulo, final String descripcion, final Integer capacidad,
+                        final Double precioBase, final Boolean tieneWifi, final Double costoLimpieza,
+                        final Integer cantidadHabitaciones,
+                        final Ubicacion ubicacion) {
         super(id, titulo, descripcion, capacidad, precioBase);
         this.tieneWifi = tieneWifi;
         this.costoLimpieza = costoLimpieza;
@@ -26,33 +30,37 @@ public class Departamento extends Alojamiento implements Parcelable {
         this.ubicacion = ubicacion;
     }
 
-    public Boolean getTieneWifi() {
-        return tieneWifi;
+    @Override
+    public Ubicacion getUbicacion() {
+        return this.ubicacion;
     }
 
-    public void setTieneWifi(Boolean tieneWifi) {
-        this.tieneWifi = tieneWifi;
+    public Boolean getTieneWifi() {
+        return tieneWifi;
     }
 
     public Double getCostoLimpieza() {
         return costoLimpieza;
     }
 
-    public void setCostoLimpieza(Double costoLimpieza) {
-        this.costoLimpieza = costoLimpieza;
-    }
-
     public Integer getCantidadHabitaciones() {
         return cantidadHabitaciones;
+    }
+
+    public void setTieneWifi(Boolean tieneWifi) {
+        this.tieneWifi = tieneWifi;
+    }
+
+    public void setCostoLimpieza(Double costoLimpieza) {
+        this.costoLimpieza = costoLimpieza;
     }
 
     public void setCantidadHabitaciones(Integer cantidadHabitaciones) {
         this.cantidadHabitaciones = cantidadHabitaciones;
     }
 
-    @Override
-    public Ubicacion getUbicacion() {
-        return this.ubicacion;
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     @Override
@@ -66,7 +74,7 @@ public class Departamento extends Alojamiento implements Parcelable {
         dest.writeValue(this.costoLimpieza);
         dest.writeValue(this.cantidadHabitaciones);
         dest.writeParcelable(this.ubicacion, flags);
-        dest.writeValue(this.id);
+        dest.writeSerializable(this.id);
         dest.writeString(this.titulo);
         dest.writeString(this.descripcion);
         dest.writeValue(this.capacidad);
@@ -78,7 +86,7 @@ public class Departamento extends Alojamiento implements Parcelable {
         this.costoLimpieza = (Double) source.readValue(Double.class.getClassLoader());
         this.cantidadHabitaciones = (Integer) source.readValue(Integer.class.getClassLoader());
         this.ubicacion = source.readParcelable(Ubicacion.class.getClassLoader());
-        this.id = (Integer) source.readValue(Integer.class.getClassLoader());
+        this.id = (UUID) source.readSerializable();
         this.titulo = source.readString();
         this.descripcion = source.readString();
         this.capacidad = (Integer) source.readValue(Integer.class.getClassLoader());
@@ -90,14 +98,14 @@ public class Departamento extends Alojamiento implements Parcelable {
         this.costoLimpieza = (Double) in.readValue(Double.class.getClassLoader());
         this.cantidadHabitaciones = (Integer) in.readValue(Integer.class.getClassLoader());
         this.ubicacion = in.readParcelable(Ubicacion.class.getClassLoader());
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = (UUID) in.readSerializable();
         this.titulo = in.readString();
         this.descripcion = in.readString();
         this.capacidad = (Integer) in.readValue(Integer.class.getClassLoader());
         this.precioBase = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Departamento> CREATOR = new Parcelable.Creator<Departamento>() {
+    public static final Creator<Departamento> CREATOR = new Creator<Departamento>() {
         @Override
         public Departamento createFromParcel(Parcel source) {
             return new Departamento(source);
@@ -108,4 +116,19 @@ public class Departamento extends Alojamiento implements Parcelable {
             return new Departamento[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Departamento{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", capacidad=" + capacidad +
+                ", precioBase=" + precioBase +
+                ", tieneWifi=" + tieneWifi +
+                ", costoLimpieza=" + costoLimpieza +
+                ", cantidadHabitaciones=" + cantidadHabitaciones +
+                ", ubicacion=" + ubicacion +
+                '}';
+    }
 }
