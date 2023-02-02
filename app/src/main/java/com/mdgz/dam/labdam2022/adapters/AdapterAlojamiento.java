@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdgz.dam.labdam2022.R;
 import com.mdgz.dam.labdam2022.data.OnResult;
+import com.mdgz.dam.labdam2022.data.datasource.retrofit.retrofit.AppRetrofit;
 import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
 import com.mdgz.dam.labdam2022.data.repository.FavoritoRepository;
@@ -49,25 +50,31 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
 
         // TODO hardcodeado porque no sabiamos como obtener un UUID de la aplicacion
         UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
-        FavoritoRepository fr = FavoritoRepositoryFactory.create(holder.context);
-        holder.asignarDatos(alojamiento, fr, user_id);
+
+        // Se crean ambos repository (uno para API y otro para DB)
+        FavoritoRepository frDb = FavoritoRepositoryFactory.create(holder.context);
+        FavoritoRepository frApi = FavoritoRepositoryFactory.create();
+        holder.asignarDatos(alojamiento, frDb, user_id);
 
         holder.favorito.setOnClickListener((View view1) -> {
             if(holder.favorito.getColorFilter() == null){
                 holder.favorito.setColorFilter(Color.RED);
+
                 OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
                     @Override
                     public void onSuccess(Favorito result) {
-//                        Toast.makeText(view1.getContext(), "Añadido a favoritos",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable exception) {
-//                        Toast.makeText(view1.getContext(), "No pudo añadirse a favoritos",Toast.LENGTH_SHORT).show();
                         exception.printStackTrace();
                     }
                 };
-                AppDataBase.EXECUTOR_DB.execute(() -> fr.guardarFavorito(new Favorito(alojamiento.getId(), user_id), favoritoCallback));
+
+                Favorito fav = new Favorito(alojamiento.getId(), user_id);
+
+                AppDataBase.EXECUTOR_DB.execute(() -> frDb.guardarFavorito(fav, favoritoCallback));
+                AppRetrofit.EXECUTOR_API.execute(() -> frApi.guardarFavorito(fav, favoritoCallback));
             }
             else{
                 holder.favorito.setColorFilter(null);
@@ -81,7 +88,11 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
                         exception.printStackTrace();
                     }
                 };
-                AppDataBase.EXECUTOR_DB.execute(() -> fr.eliminarFavorito(new Favorito(alojamiento.getId(), user_id), favoritoCallback));
+
+                Favorito fav = new Favorito(alojamiento.getId(), user_id);
+
+                AppDataBase.EXECUTOR_DB.execute(() -> frDb.eliminarFavorito(fav, favoritoCallback));
+                AppRetrofit.EXECUTOR_API.execute(() -> frApi.eliminarFavorito(fav, favoritoCallback));
             }
         });
 
@@ -106,7 +117,6 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
         TextView precio;
         ImageButton favorito;
 
-        // TODO ????
         Context context;
 
         public ViewHolder(@NonNull View itemView) {
@@ -147,7 +157,9 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
                     exception.printStackTrace();
                 }
             };
+
             AppDataBase.EXECUTOR_DB.execute(() -> fr.perteneceFavorito(new Favorito(alojamiento.getId(), user_id),perteneceCallback));
+
         }
     }
 }

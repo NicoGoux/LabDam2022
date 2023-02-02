@@ -9,6 +9,9 @@ import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.datasource.room.mapper.ReservaMapper;
 import com.mdgz.dam.labdam2022.model.Reserva;
 
+import java.util.List;
+import java.util.UUID;
+
 public class ReservaRoomDataSource implements ReservaDataSource {
 
     private final ReservaDAO reservaDAO;
@@ -25,6 +28,22 @@ public class ReservaRoomDataSource implements ReservaDataSource {
         try {
             reservaDAO.insertar(ReservaMapper.toEntity(reserva));
             callback.onSuccess(reserva);
+        }
+        catch (final Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void consultarReservas(UUID userId, OnResult<List<Reserva>> callback) {
+
+    }
+
+    @Override
+    public void limpiarReservas(OnResult<Boolean> callback) {
+        try {
+            reservaDAO.clearTable();
+            callback.onSuccess(true);
         }
         catch (final Exception e) {
             callback.onError(e);
