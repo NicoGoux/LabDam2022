@@ -157,7 +157,9 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
                     exception.printStackTrace();
                 }
             };
+
             AppDataBase.EXECUTOR_DB.execute(() -> fr.perteneceFavorito(new Favorito(alojamiento.getId(), user_id),perteneceCallback));
+
         }
     }
 }

@@ -31,7 +31,7 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
             Response<Reserva> response = reservaApiRest.crearReserva(reserva).execute();
             IsSuccessful<Reserva> responseStatus = new IsSuccessful<Reserva>() {
                 @Override
-                public void isSuccessful(Response<Reserva> response, OnResult<Reserva> callback) throws IOException {
+                public void isSuccessful(Response<Reserva> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
                     }
@@ -40,7 +40,7 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
                     }
                 }
             };
-            responseStatus.isSuccessful(response, callback);
+            responseStatus.isSuccessful(response);
         } catch (IOException e) {
             callback.onError(e);
         }
@@ -51,7 +51,7 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
             Response<List<Reserva>> response = reservaApiRest.listarReservas().execute();
             IsSuccessful<List<Reserva>> responseStatus = new IsSuccessful<List<Reserva>>() {
                 @Override
-                public void isSuccessful(Response<List<Reserva>> response, OnResult<List<Reserva>> callback) throws IOException {
+                public void isSuccessful(Response<List<Reserva>> response) throws IOException {
                     if (response.isSuccessful()) {
                         callback.onSuccess(response.body());
                     }
@@ -60,7 +60,7 @@ public class ReservaRetrofitDataSource implements ReservaDataSource {
                     }
                 }
             };
-            responseStatus.isSuccessful(response, callback);
+            responseStatus.isSuccessful(response);
         } catch (IOException e) {
             callback.onError(e);
         }

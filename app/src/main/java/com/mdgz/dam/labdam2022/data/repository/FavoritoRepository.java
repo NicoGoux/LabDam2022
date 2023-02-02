@@ -4,6 +4,9 @@ import com.mdgz.dam.labdam2022.data.OnResult;
 import com.mdgz.dam.labdam2022.data.datasource.FavoritoDataSource;
 import com.mdgz.dam.labdam2022.model.Favorito;
 
+import java.util.List;
+import java.util.UUID;
+
 public class FavoritoRepository implements FavoritoDataSource {
 
     private final FavoritoDataSource ds;
@@ -25,5 +28,9 @@ public class FavoritoRepository implements FavoritoDataSource {
     @Override
     public void perteneceFavorito(Favorito favorito, OnResult<Boolean> callback) {
         ds.perteneceFavorito(favorito,callback);
+    }
+
+    public void listarFavoritos(UUID userId, OnResult<List<Favorito>> callback) {
+        ds.listarFavoritos(userId, callback);
     }
 }

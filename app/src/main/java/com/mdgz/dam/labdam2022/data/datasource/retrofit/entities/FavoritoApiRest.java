@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface FavoritoApiRest {
     @Headers("Authorization: Basic UkFORzoxMjM0NQ==")
     @GET("favorito")
-    Call<List<Favorito>> listarFavoritos();
+    Call<List<Favorito>> listarFavoritos(@Query("usuarioId") UUID usuarioId);
 
     @Headers("Authorization: Basic UkFORzoxMjM0NQ==")
     @POST("favorito")

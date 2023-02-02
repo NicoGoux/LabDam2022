@@ -27,4 +27,12 @@ public class Favorito {
     public void setUsuarioID(UUID usuarioID) {
         this.usuarioId = usuarioID;
     }
+
+    @Override
+    public String toString() {
+        return "Favorito{" +
+                "alojamientoId=" + alojamientoId +
+                ", usuarioId=" + usuarioId +
+                '}';
+    }
 }
