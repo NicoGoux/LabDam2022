@@ -52,6 +52,7 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         TextView campo7;
         TextView campo8;
         TextView campo9;
+        TextView campo10;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,6 +67,7 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
             campo7 = itemView.findViewById(R.id.logText7);
             campo8 = itemView.findViewById(R.id.logText8);
             campo9 = itemView.findViewById(R.id.logText9);
+            campo10 = itemView.findViewById(R.id.logText10);
         }
 
         public void asignarDatos(String line) {
@@ -82,6 +84,7 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
                 else if (campo7.getText() == "") campo7.setText(logItem);
                 else if (campo8.getText() == "") campo8.setText(logItem);
                 else if (campo9.getText() == "") campo9.setText(logItem);
+                else if (campo10.getText() == "") campo10.setText(logItem);
             }
         }
     }

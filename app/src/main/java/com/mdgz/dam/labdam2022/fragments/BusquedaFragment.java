@@ -92,47 +92,56 @@ public class BusquedaFragment extends Fragment {
 
         binding.searchButtonId.setOnClickListener( (View view1) -> {
 
-            ArrayList<Alojamiento> listaDatos = new ArrayList<>();
+            Instant tiempoInicial = Instant.now();
 
             final OnResult<List<Alojamiento>> alojamientoCallback = new OnResult<List<Alojamiento>>() {
                 @Override
                 public void onSuccess(final List<Alojamiento> result) {
-                    listaDatos.addAll(result);
+
+                    Long tiempoTotal = Instant.now().toEpochMilli() - tiempoInicial.toEpochMilli();
+
+                    //Se guarda el log
+                    saveLogs(result, tiempoTotal);
+
+                    ArrayList<Alojamiento> listaDatos = new ArrayList<>(result);
+
+                    requireActivity().runOnUiThread(() -> {
+                        Bundle args = new Bundle();
+                        args.putParcelableArrayList("resultados_busqueda", listaDatos);
+
+                        navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment,args);
+                    });
                 }
                 @Override
                 public void onError(final Throwable exception) {
                     Toast.makeText(requireContext(), "No pudo realizarse la busqueda", Toast.LENGTH_LONG).show();
                 }
             };
+
             AppDataBase.EXECUTOR_DB.execute(() -> AlojamientoRepositoryFactory.create(requireContext()).recuperarAlojamientos(alojamientoCallback));
-
-            Bundle args = new Bundle();
-            args.putParcelableArrayList("resultados_busqueda", listaDatos);
-
-            navHost.navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment,args);
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-            boolean autorizacion = sharedPreferences.getBoolean("autorizacion_recopilacion",false);
-
-            if(autorizacion){
-                String registro = "";
-                String ts = String.valueOf(Instant.now().getEpochSecond());
-
-                registro += ts + ",";
-                if(binding.hotelCheckboxId.isChecked()) registro += "buscar:" + binding.hotelCheckboxId.getText().toString() + ",";
-                if(binding.departamentoCheckboxId.isChecked()) registro += "buscar:" + binding.departamentoCheckboxId.getText().toString() + ",";
-                if(!binding.cantidadPersonasId.getText().toString().isEmpty()) registro += "personas:" + binding.cantidadPersonasId.getText().toString() + ",";
-                if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
-                if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
-                if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
-                if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("Seleccione una ciudad")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
-
-                registro += "resultados:" + listaDatos.size();
-
-                //TODO agregar tiempo que tardó la busqueda (quizá en base a la busqueda en base de datos) Instant2.now() - Instant1.now()
-               //Se escribe el archivo
-                FileManager.saveLogFile(registro,requireContext());
-            }
         });
+    }
+    private void saveLogs(List<Alojamiento> listaDatos, Long tiempoTotal) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        boolean autorizacion = sharedPreferences.getBoolean("autorizacion_recopilacion",false);
+
+        if(autorizacion){
+            String registro = "";
+            String ts = String.valueOf(Instant.now().getEpochSecond());
+
+            registro += ts + ",";
+            if(binding.hotelCheckboxId.isChecked()) registro += "buscar:" + binding.hotelCheckboxId.getText().toString() + ",";
+            if(binding.departamentoCheckboxId.isChecked()) registro += "buscar:" + binding.departamentoCheckboxId.getText().toString() + ",";
+            if(!binding.cantidadPersonasId.getText().toString().isEmpty()) registro += "personas:" + binding.cantidadPersonasId.getText().toString() + ",";
+            if(binding.wifiCheckBoxId.isChecked()) registro += binding.wifiCheckBoxId.getText().toString() + ",";
+            if(!binding.minimoPrecioId.getText().toString().isEmpty()) registro += "precio min.:" + binding.minimoPrecioId.getText().toString() + ",";
+            if(!binding.maximoPrecioId.getText().toString().isEmpty()) registro += "precio max.:" + binding.maximoPrecioId.getText().toString() + ",";
+            if(!((Ciudad) binding.ciudadId.getSelectedItem()).getNombre().equals("Seleccione una ciudad")) registro += "ciudad:" + ((Ciudad) binding.ciudadId.getSelectedItem()).getNombre() + ",";
+            registro += "resultados:" + listaDatos.size() + ",";
+            registro += "tiempo de busqueda:" + tiempoTotal + "ms";
+
+            //Se escribe el archivo
+            FileManager.saveLogFile(registro,requireContext());
+        }
     }
 }

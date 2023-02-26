@@ -116,7 +116,6 @@ public class AdapterAlojamiento extends RecyclerView.Adapter<AdapterAlojamiento.
         TextView capacidad;
         TextView precio;
         ImageButton favorito;
-
         Context context;
 
         public ViewHolder(@NonNull View itemView) {

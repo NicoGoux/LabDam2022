@@ -13,7 +13,6 @@ public abstract class Alojamiento implements Parcelable {
     protected Integer capacidad;
     protected Double precioBase;
 
-    // TODO revisar
     protected Alojamiento() {}
 
     protected Alojamiento( final String titulo, final String descripcion, final Integer capacidad,
