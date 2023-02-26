@@ -5,24 +5,24 @@ import java.util.UUID;
 
 public class Reserva {
 
-    private UUID alojamientoId;
-    private UUID usuarioId;
-    private Date fechaIngreso;
-    private Date fechaSalida;
+    UUID alojamientoID;
+    UUID usuarioID;
+    Date fechaIngreso;
+    Date fechaSalida;
 
     public Reserva(UUID alojamientoID, UUID usuarioID, Date fechaIngreso, Date fechaSalida) {
-        this.alojamientoId = alojamientoID;
-        this.usuarioId = usuarioID;
+        this.alojamientoID = alojamientoID;
+        this.usuarioID = usuarioID;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
     }
 
     public UUID getAlojamientoID() {
-        return alojamientoId;
+        return alojamientoID;
     }
 
     public UUID getUsuarioID() {
-        return usuarioId;
+        return usuarioID;
     }
 
     public Date getFechaIngreso() {
@@ -34,11 +34,11 @@ public class Reserva {
     }
 
     public void setAlojamientoID(UUID alojamientoID) {
-        this.alojamientoId = alojamientoID;
+        this.alojamientoID = alojamientoID;
     }
 
     public void setUsuarioID(UUID usuarioID) {
-        this.usuarioId = usuarioID;
+        this.usuarioID = usuarioID;
     }
 
     public void setFechaIngreso(Date fechaIngreso) {
@@ -47,15 +47,5 @@ public class Reserva {
 
     public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
-    }
-
-    @Override
-    public String toString() {
-        return "Reserva{" +
-                "alojamientoID=" + alojamientoId +
-                ", usuarioID=" + usuarioId +
-                ", fechaIngreso=" + fechaIngreso +
-                ", fechaSalida=" + fechaSalida +
-                '}';
     }
 }

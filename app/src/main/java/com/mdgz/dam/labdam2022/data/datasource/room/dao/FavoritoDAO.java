@@ -3,7 +3,6 @@ package com.mdgz.dam.labdam2022.data.datasource.room.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.mdgz.dam.labdam2022.data.datasource.room.entities.FavoritoEntity;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @Dao
 public interface FavoritoDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertar(FavoritoEntity favorito);
 
     @Delete
@@ -22,6 +21,7 @@ public interface FavoritoDAO {
     @Query("SELECT alojamiento_id FROM favoritoentity WHERE alojamiento_id=:alojamiento_id AND usuario_id=:usuario_id")
     UUID pertenece(UUID alojamiento_id, UUID usuario_id);
 
-    @Query("DELETE FROM favoritoentity")
-    void clearTable();
+
+    @Query("SELECT * FROM favoritoentity")
+    FavoritoEntity[] recuperarFavoritos();
 }

@@ -5,11 +5,11 @@ import java.util.UUID;
 public class Favorito {
     private UUID alojamientoId;
 
-    private UUID usuarioId;
+    private UUID usuarioID;
 
     public Favorito(UUID alojamientoId, UUID usuarioID) {
         this.alojamientoId = alojamientoId;
-        this.usuarioId = usuarioID;
+        this.usuarioID = usuarioID;
     }
 
     public UUID getAlojamientoId() {
@@ -17,7 +17,7 @@ public class Favorito {
     }
 
     public UUID getUsuarioID() {
-        return usuarioId;
+        return usuarioID;
     }
 
     public void setAlojamientoId(UUID alojamientoId) {
@@ -25,14 +25,6 @@ public class Favorito {
     }
 
     public void setUsuarioID(UUID usuarioID) {
-        this.usuarioId = usuarioID;
-    }
-
-    @Override
-    public String toString() {
-        return "Favorito{" +
-                "alojamientoId=" + alojamientoId +
-                ", usuarioId=" + usuarioId +
-                '}';
+        this.usuarioID = usuarioID;
     }
 }

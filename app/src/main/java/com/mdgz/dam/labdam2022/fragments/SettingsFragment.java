@@ -27,8 +27,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         // Definimos el NavController
         navHost = NavHostFragment.findNavController(this);
 
-        //
-
         // Dependencia de metodo de pago y moneda
         final ListPreference metodoPagoPreferenceList = findPreference("metodo_de_pago_list");
         final ListPreference monedaPreferenceList = findPreference("moneda_list");

@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mdgz.dam.labdam2022.data.OnResult;
-import com.mdgz.dam.labdam2022.data.datasource.retrofit.retrofit.AppRetrofit;
 import com.mdgz.dam.labdam2022.data.datasource.room.database.AppDataBase;
 import com.mdgz.dam.labdam2022.data.factory.FavoritoRepositoryFactory;
 import com.mdgz.dam.labdam2022.data.factory.ReservaRepositoryFactory;
@@ -72,11 +71,8 @@ public class DetalleAlojamientoFragment extends Fragment {
         UUID user_id = UUID.fromString("ba6dbe60-387b-412e-8fbb-0971f6f0c21a");
 
         // Se instancian los repositorios
-        FavoritoRepository favoritoRepositoryDatabase = FavoritoRepositoryFactory.create(requireContext());
-        FavoritoRepository favoritoRepositoryApi = FavoritoRepositoryFactory.create();
-
-        ReservaRepository reservaRepositoryDatabase = ReservaRepositoryFactory.create(requireContext());
-        ReservaRepository reservaRepositoryApi = ReservaRepositoryFactory.create();
+        FavoritoRepository favoritoRepository = FavoritoRepositoryFactory.create(requireContext());
+        ReservaRepository reservaRepository = ReservaRepositoryFactory.create(requireContext());
 
         // Se completan y muestran los campos dependiendo si
         // se selecciono un departamento o una habitacion
@@ -181,12 +177,11 @@ public class DetalleAlojamientoFragment extends Fragment {
                     exception.printStackTrace();
                 }
             };
-            AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepositoryDatabase.perteneceFavorito(new Favorito(finalAlojamiento.getId(), user_id),perteneceCallback));
+            AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.perteneceFavorito(new Favorito(finalAlojamiento.getId(), user_id),perteneceCallback));
 
             binding.favoriteButton.setOnClickListener((View view1) -> {
                 if(binding.favoriteButton.getColorFilter() == null){
                     binding.favoriteButton.setColorFilter(Color.RED);
-
                     OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
                         @Override
                         public void onSuccess(Favorito result) {
@@ -199,15 +194,10 @@ public class DetalleAlojamientoFragment extends Fragment {
                             exception.printStackTrace();
                         }
                     };
-
-                    Favorito fav = new Favorito(finalAlojamiento.getId(), user_id);
-
-                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepositoryDatabase.guardarFavorito(fav, favoritoCallback));
-                    AppRetrofit.EXECUTOR_API.execute(() -> favoritoRepositoryApi.guardarFavorito(fav, favoritoCallback));
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.guardarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
                 }
                 else{
                     binding.favoriteButton.setColorFilter(null);
-
                     OnResult<Favorito> favoritoCallback = new OnResult<Favorito>() {
                         @Override
                         public void onSuccess(Favorito result) {
@@ -218,11 +208,7 @@ public class DetalleAlojamientoFragment extends Fragment {
                             exception.printStackTrace();
                         }
                     };
-
-                    Favorito fav = new Favorito(finalAlojamiento.getId(), user_id);
-
-                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepositoryDatabase.eliminarFavorito(fav, favoritoCallback));
-                    AppRetrofit.EXECUTOR_API.execute(() -> favoritoRepositoryApi.eliminarFavorito(fav, favoritoCallback));
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.eliminarFavorito(new Favorito(finalAlojamiento.getId(), user_id), favoritoCallback));
                 }
             });
 
@@ -243,35 +229,25 @@ public class DetalleAlojamientoFragment extends Fragment {
                 Date fechaIngresoDate = Date.from(fechaIngreso.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Date fechaEgresoDate = Date.from(fechaEgreso.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                OnResult<Reserva> guardarReservaCallbackDatabase = new OnResult<Reserva>() {
+                OnResult<Reserva> guardarReservaCallback = new OnResult<Reserva>() {
                     @Override
                     public void onSuccess(Reserva result) {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "Reserva guardada localmente", Toast.LENGTH_SHORT).show());
+                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "Reserva guardada", Toast.LENGTH_SHORT).show());
                     }
 
                     @Override
                     public void onError(Throwable exception) {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "No pudo guardarse la reserva localmente", Toast.LENGTH_SHORT).show());
-                        exception.printStackTrace();
-                    }
-                };
-                OnResult<Reserva> guardarReservaCallbackApi = new OnResult<Reserva>() {
-                    @Override
-                    public void onSuccess(Reserva result) {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "Reserva guardada en la nube", Toast.LENGTH_SHORT).show());
-                    }
-
-                    @Override
-                    public void onError(Throwable exception) {
-                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "No pudo guardarse la reserva en la nube", Toast.LENGTH_SHORT).show());
+                        requireActivity().runOnUiThread(() -> Toast.makeText(view1.getContext(), "No pudo guardarse la reserva", Toast.LENGTH_SHORT).show());
                         exception.printStackTrace();
                     }
                 };
 
-                final Reserva reserva = new Reserva(finalAlojamiento.getId(), user_id, fechaIngresoDate, fechaEgresoDate);
-
-                AppDataBase.EXECUTOR_DB.execute(() -> reservaRepositoryDatabase.guardarReserva(reserva, guardarReservaCallbackDatabase));
-                AppRetrofit.EXECUTOR_API.execute(() -> reservaRepositoryApi.guardarReserva(reserva, guardarReservaCallbackApi));
+                AppDataBase.EXECUTOR_DB.execute(() -> reservaRepository.guardarReserva(new Reserva(
+                        finalAlojamiento.getId(),
+                        user_id,
+                        fechaIngresoDate,
+                        fechaEgresoDate
+                ), guardarReservaCallback));
             });
         }
     }

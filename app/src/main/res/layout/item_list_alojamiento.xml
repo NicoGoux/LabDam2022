@@ -28,7 +28,7 @@
             android:paddingBottom="20dp">
 
             <LinearLayout
-                android:layout_width="134dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:id="@+id/descripcion_item"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="TextView" />
@@ -71,15 +71,15 @@
                     android:src="@drawable/baseline_favorite_black_24"
                     tools:ignore="SpeakableTextPresentCheck" />
 
-                <TextView
+            <TextView
                     android:id="@+id/precio_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center|end"
+                android:layout_marginTop="10dp"
+                    android:gravity="end|center"
                     android:text="TextView"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
